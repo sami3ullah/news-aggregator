@@ -1,0 +1,12 @@
+version: "1"
+
+services:
+  news-aggregator:
+    build: .
+    container_name: news
+    ports: 
+      - '5173:5173'
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
