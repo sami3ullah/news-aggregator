@@ -5,6 +5,6 @@ describe('Navbar', () => {
   test('Navbar is rendering', async () => {
     render(<Navbar />)
     // ASSERT
-    expect(screen.getByTestId('navbar')).toBeInTheDocument()
+    expect(screen.getByRole('navigation')).toBeInTheDocument()
   })
 })

@@ -1,5 +1,5 @@
 const Navbar = () => {
-  return <div data-testid="navbar">Navbar</div>
+  return <div role="navigation">Navbar</div>
 }
 
 export default Navbar

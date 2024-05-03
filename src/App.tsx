@@ -1,13 +1,20 @@
-import Navbar from './components/Navbar'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Home from './pages/home/Home'
+import NotFound from './pages/notFound/NotFound'
 
-function App() {
+export function App() {
   return (
-    <>
-      <div>
-        <Navbar />
-      </div>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   )
 }
 
-export default App
+export function WrappedApp() {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  )
+}
