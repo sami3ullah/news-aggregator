@@ -60,14 +60,14 @@ export function truncateTextByChars(text: string, charLimit = 260): string {
  * @returns respective error message
  */
 export const handleErrors = (error: AxiosError) => {
-  if (error.response) {
+  if (error?.response) {
     // if the response is between (5xx, 4xx)
     const errorMessage = getErrorResponse(error)
     return errorMessage
   }
-  if (error.request) {
+  if (error?.request) {
     // The client never received a response, like in the case of no internet etc.
-    if (error.message === 'Network Error') {
+    if (error.code === 'ERR_NETWORK') {
       return 'Something wrong with your internet. Please check you internet connection'
     }
     return error.message

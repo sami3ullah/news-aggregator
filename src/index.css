@@ -75,14 +75,15 @@
   }
 }
 
-body {
+/* background dots */
+/* body {
   background-size: 40px 40px;
   background-image: radial-gradient(
     circle,
     #a6a5a5 1px,
     rgba(186, 183, 183, 0) 1px
   );
-}
+} */
 
 h1,
 h2,
