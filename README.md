@@ -8,7 +8,7 @@
 
 ## Run the project
 
-`npm start`
+`npm run dev`
 
 ## Run the tests
 

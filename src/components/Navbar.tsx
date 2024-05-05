@@ -1,5 +1,11 @@
+import { Button } from './ui-library/button'
+
 const Navbar = () => {
-  return <div role="navigation">Navbar</div>
+  return (
+    <div role="navigation">
+      <Button>Button</Button>
+    </div>
+  )
 }
 
 export default Navbar
