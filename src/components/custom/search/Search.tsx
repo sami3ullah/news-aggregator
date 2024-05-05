@@ -6,7 +6,7 @@ const Search = () => {
       <Input
         type="search"
         placeholder="Search articles..."
-        className="pl-8 w-full border-4 border-black h-14 placeholder:text-lg placeholder:text-gray-700"
+        className="pl-8 w-full border-2 border-gray-300 h-14 placeholder:text-lg placeholder:text-gray-700"
       />
     </div>
   )

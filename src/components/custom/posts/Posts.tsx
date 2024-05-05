@@ -1,5 +1,6 @@
 import { NewsApiEverythingRes } from '@/types/newsApi'
 import Post from '@/components/custom/post/Post'
+import React from 'react'
 
 const articles: NewsApiEverythingRes[] = [
   {
@@ -105,14 +106,16 @@ const Posts = () => {
   return (
     <div className="flex gap-4 flex-wrap mt-16">
       {!!articles.length &&
-        articles.map((article) => (
-          <Post
-            imageUrl={article.urlToImage}
-            title={article.title}
-            description={article.description}
-            time={article.publishedAt}
-            source={article.source.name}
-          />
+        articles.map((article, index) => (
+          <React.Fragment key={index}>
+            <Post
+              imageUrl={article.urlToImage}
+              title={article.title}
+              description={article.description}
+              time={article.publishedAt}
+              source={article.source.name}
+            />
+          </React.Fragment>
         ))}
     </div>
   )

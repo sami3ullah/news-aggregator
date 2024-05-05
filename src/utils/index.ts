@@ -1,3 +1,5 @@
+import { AxiosError, HttpStatusCode } from 'axios'
+
 /**
  *
  * @param dateString as string
@@ -49,5 +51,47 @@ export function truncateTextByChars(text: string, charLimit = 260): string {
     return text // Return original text if it's already shorter than the limit
   } else {
     return text.substring(0, charLimit) + '...' // Truncate text and add ellipsis
+  }
+}
+
+/**
+ *
+ * @param error takes an Axios Error
+ * @returns respective error message
+ */
+export const handleErrors = (error: AxiosError) => {
+  if (error.response) {
+    // if the response is between (5xx, 4xx)
+    const errorMessage = getErrorResponse(error)
+    return errorMessage
+  }
+  if (error.request) {
+    // The client never received a response, like in the case of no internet etc.
+    if (error.message === 'Network Error') {
+      return 'Something wrong with your internet. Please check you internet connection'
+    }
+    return error.message
+  }
+
+  return 'Something unknown happened'
+}
+
+const getErrorResponse = (error: AxiosError) => {
+  const errorCode = error.response?.status
+  switch (errorCode) {
+    case 400:
+      return HttpStatusCode.BadRequest
+    case 401:
+      return HttpStatusCode.Unauthorized
+    case 403:
+      return HttpStatusCode.Forbidden
+    case 404:
+      return HttpStatusCode.NotFound
+    case 500:
+      return HttpStatusCode.InternalServerError
+    case 502:
+      return HttpStatusCode.BadGateway
+    default:
+      return 'Something went wrong'
   }
 }

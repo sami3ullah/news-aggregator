@@ -16,15 +16,15 @@ type Props = {
 
 export function Post({ imageUrl, title, description, time, source }: Props) {
   return (
-    <Card className="w-full md:w-[calc(50%-11px)] lg:w-[calc(33.3%-11px)] border-0">
+    <Card className="w-full md:w-[calc(50%-11px)] lg:w-[calc(33.3%-11px)] shadow-none">
+      <div className="max-h-[210px] h-[210px] overflow-hidden">
+        <img
+          src={imageUrl}
+          className="object-cover object-center h-full w-full"
+          alt="article image"
+        />
+      </div>
       <CardHeader className="flex flex-col gap-[12px] justify-between">
-        <div className="max-h-[210px] h-[210px] overflow-hidden">
-          <img
-            src={imageUrl}
-            className="object-cover object-center h-full w-full"
-            alt="article image"
-          />
-        </div>
         {/* main content */}
         <div className="flex flex-col gap-[12px]">
           <CardTitle className="text-lg">{title}</CardTitle>
