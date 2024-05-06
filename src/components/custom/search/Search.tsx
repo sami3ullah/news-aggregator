@@ -10,7 +10,7 @@ const Search = ({ setSearchQuery }: Props) => {
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
   }
-  const debounced = useDebounce(onSearch, 500)
+  const debounced = useDebounce(onSearch, 1000)
 
   return (
     <div className="mt-12">

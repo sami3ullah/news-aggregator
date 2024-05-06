@@ -5,7 +5,7 @@ import React from 'react'
 import Filters from '@/components/custom/filters/Filters'
 
 const Home = () => {
-  const [searchQuery, setSearchQuery] = React.useState('')
+  const [searchQuery, setSearchQuery] = React.useState('covid')
   return (
     <div className="flex min-h-screen w-full flex-col">
       <Header />

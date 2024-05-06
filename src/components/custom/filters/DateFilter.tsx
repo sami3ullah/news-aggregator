@@ -11,15 +11,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui-library/popover'
+import { Label } from '@/components/ui-library/label'
 
 function DateFilter({ className }: React.HTMLAttributes<HTMLDivElement>) {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  })
+  const [date, setDate] = React.useState<DateRange | undefined>()
 
   return (
     <div className={cn('grid gap-2', className)}>
+      <Label htmlFor="date" className="font-bold text-gray-900">
+        Date
+      </Label>
       <Popover>
         <PopoverTrigger asChild>
           <Button
