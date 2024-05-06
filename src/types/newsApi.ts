@@ -1,4 +1,10 @@
 export type NewsApiEverythingRes = {
+  status: string
+  totalResults: number
+  articles: NewApiEverythingArticles[]
+}
+
+export type NewApiEverythingArticles = {
   source: Source
   author: string
   title: string

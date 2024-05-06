@@ -95,3 +95,18 @@ const getErrorResponse = (error: AxiosError) => {
       return 'Something went wrong'
   }
 }
+
+/**
+ *
+ * @param text takes text as string
+ * @returns sanitized and clean text without html tags
+ */
+export const sanitizeHTML = (text: string | undefined): string => {
+  // Regular expression to match HTML tags
+  const htmlRegex = /<[^>]*>/g
+
+  // Remove HTML tags from the text
+  const sanitizedText = text?.replace(htmlRegex, '') ?? ''
+
+  return sanitizedText
+}

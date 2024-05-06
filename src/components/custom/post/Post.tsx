@@ -50,7 +50,7 @@ export function Post({
             <div className="flex gap-4">
               {/* time */}
               <span className="text-[12px] leading-[14px] text-gray-400 border-r border-gray-500 pr-4">
-                {prettifyDate(time)}
+                {time}
               </span>
               {/* source */}
               <span className="text-[12px] leading-[14px] text-gray-400">

@@ -2,12 +2,15 @@ import { Input } from '@/components/ui-library/input'
 import useDebounce from '@/hooks/useDebounce'
 import React from 'react'
 
-const Search = () => {
+type Props = {
+  setSearchQuery: React.Dispatch<React.SetStateAction<string>>
+}
+
+const Search = ({ setSearchQuery }: Props) => {
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setValue(e.target.value)
-    console.log(e.target.value)
+    setSearchQuery(e.target.value)
   }
-  const debounced = useDebounce(onSearch)
+  const debounced = useDebounce(onSearch, 500)
 
   return (
     <div className="mt-12">

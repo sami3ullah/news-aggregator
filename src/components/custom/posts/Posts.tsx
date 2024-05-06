@@ -2,28 +2,37 @@ import Post from '@/components/custom/post/Post'
 import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getEveryNewsApiPosts } from '@/api/news-api/newsApi'
+import { getEverythingGuardianPosts } from '@/api/guardian/guardian'
 
-const Posts = () => {
-  const { isLoading, data: response } = useQuery({
-    queryKey: ['todos'],
-    queryFn: () => getEveryNewsApiPosts('covid'),
+type Props = {
+  searchQuery: string
+}
+
+const Posts = ({ searchQuery }: Props) => {
+  // const { isLoading, data: articles } = useQuery({
+  //   queryKey: ['todos', searchQuery],
+  //   queryFn: () => getEveryNewsApiPosts(searchQuery),
+  // })
+
+  const { isLoading, data: articles } = useQuery({
+    queryKey: ['todos', searchQuery],
+    queryFn: () => getEverythingGuardianPosts(searchQuery),
   })
 
-  const articles = response?.articles
   return (
-    <div className="flex gap-4 flex-wrap mt-16">
+    <div className="flex gap-4 flex-wrap">
       {!!isLoading
         ? 'Loading...'
         : !!articles?.length &&
           articles?.map((article, index) => (
             <React.Fragment key={index}>
               <Post
-                postUrl={article.url}
-                imageUrl={article.urlToImage}
+                postUrl={article.postUrl}
+                imageUrl={article.imageUrl ?? ''}
                 title={article.title}
-                description={article.description}
-                time={article.publishedAt}
-                source={article.source.name}
+                description={article.description ?? ''}
+                time={article.time}
+                source={article.source ?? 'Unknown'}
               />
             </React.Fragment>
           ))}
