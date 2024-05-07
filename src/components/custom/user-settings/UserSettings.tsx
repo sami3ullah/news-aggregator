@@ -21,8 +21,8 @@ const UserSettings = () => {
       <TooltipProvider>
         <Tooltip>
           <Sheet>
-            <SheetTrigger>
-              <TooltipTrigger>
+            <SheetTrigger asChild>
+              <TooltipTrigger className="lola" asChild>
                 <Button variant="rounded" size="icon">
                   <Settings />
                 </Button>

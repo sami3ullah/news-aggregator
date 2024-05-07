@@ -3,7 +3,6 @@ import { Input } from '@/components/ui-library/input'
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -22,7 +21,7 @@ const Filters = () => {
         <SheetContent>
           <SheetHeader className="gap-12">
             <SheetTitle>Choose your filters</SheetTitle>
-            <SheetDescription className="mt-[40px] flex flex-col gap-12">
+            <div className="mt-[40px] flex flex-col gap-12">
               <div className="flex flex-col gap-2">
                 <Label htmlFor="category" className="font-bold text-gray-900">
                   Category
@@ -48,7 +47,7 @@ const Filters = () => {
               {/* Date Filters */}
               <DateFilter />
               <Button>Filter Results</Button>
-            </SheetDescription>
+            </div>
           </SheetHeader>
         </SheetContent>
       </Sheet>

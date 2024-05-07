@@ -4,6 +4,7 @@ import Home from './pages/home/Home'
 import NotFound from './pages/not-found/NotFound'
 import './index.css'
 import { queryClient } from './utils/reactQueryConfig'
+import ErrorBoundaryWrapped from './components/custom/error-boundary/ErrorBoundaryWrapped'
 
 export function App() {
   return (
@@ -18,7 +19,9 @@ export function WrappedApp() {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <ErrorBoundaryWrapped>
+          <App />
+        </ErrorBoundaryWrapped>
       </QueryClientProvider>
     </BrowserRouter>
   )

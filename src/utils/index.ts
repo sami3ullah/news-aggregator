@@ -1,4 +1,4 @@
-import { AxiosError, HttpStatusCode } from 'axios'
+import { AxiosError } from 'axios'
 
 /**
  *
@@ -80,17 +80,19 @@ const getErrorResponse = (error: AxiosError) => {
   const errorCode = error.response?.status
   switch (errorCode) {
     case 400:
-      return HttpStatusCode.BadRequest
+      return 'Bad Request'
     case 401:
-      return HttpStatusCode.Unauthorized
+      return 'You are unauthorize'
     case 403:
-      return HttpStatusCode.Forbidden
+      return "You don't have the permission to access the resource"
     case 404:
-      return HttpStatusCode.NotFound
+      return "The resource you're looking for is not found"
+    case 429:
+      return 'Too many requests. slow down :('
     case 500:
-      return HttpStatusCode.InternalServerError
+      return 'Internal server error'
     case 502:
-      return HttpStatusCode.BadGateway
+      return 'Bad Gateway'
     default:
       return 'Something went wrong'
   }

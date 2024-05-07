@@ -4,7 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui-library/card'
-import { prettifyDate, truncateTextByChars } from '@/utils'
+import { truncateTextByChars } from '@/utils'
 import Image from '../image/Image'
 
 type Props = {
