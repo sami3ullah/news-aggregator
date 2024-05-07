@@ -12,7 +12,6 @@ export const getEveryNewsApiPosts = async ({
   querySymbol = '',
 }): Promise<ApiPostResponse> => {
   const queryString = `q=${querySymbol}${searchQuery}`
-  // const queryString = `q=jets`
   try {
     const response: AxiosResponse = await axios.get(
       `${NEWS_API_EVERYTHING_ENDPOINT}?${queryString}&apiKey=${newsApiAuthToken}&page=${pageParam}&pageSize=${PAGE_SIZE}&sortBy=relevance`
@@ -34,11 +33,13 @@ export const getEveryNewsApiPosts = async ({
         }
       }
     )
+
+    const totalPosts = data.totalResults
+
     return {
       response: res,
-      totalPosts: data.totalResults,
-      prevPage:
-        pageParam * res.length < data.totalResults ? pageParam + 1 : undefined,
+      totalPosts: totalPosts,
+      prevPage: pageParam * res.length < totalPosts ? pageParam + 1 : undefined,
     }
   } catch (err: unknown) {
     const errorMessage = handleErrors(err as AxiosError)

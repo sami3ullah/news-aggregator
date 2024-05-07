@@ -7,13 +7,14 @@ import ErrorBoundaryWrapped from '../error-boundary/ErrorBoundaryWrapped'
 import Loader from '../loader/Loader'
 import LoadMore from '../load-more/LoadMore'
 import ErrorScreen from '../error-screen/ErrorScreen'
+import { getEverythingGuardianPosts } from '@/api/guardian/guardian'
+import { getEverythingNewyorkTimesPosts } from '@/api/newyork-times/newyork'
 
 type Props = {
   searchQuery: string
 }
 
 const Posts = ({ searchQuery }: Props) => {
-  const querySymbol = ''
   const {
     isLoading,
     data,
@@ -26,10 +27,9 @@ const Posts = ({ searchQuery }: Props) => {
     queryKey: ['posts', searchQuery],
     //@ts-ignore -> known type issue in react query v5
     queryFn: ({ pageParam }) =>
-      getEveryNewsApiPosts({
+      getEverythingNewyorkTimesPosts({
         pageParam,
         searchQuery,
-        querySymbol,
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.prevPage,

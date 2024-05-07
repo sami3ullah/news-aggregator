@@ -1,4 +1,4 @@
-import { GUARDIAN_ENDPOINT } from '@/utils/constants'
+import { GUARDIAN_ENDPOINT, PAGE_SIZE } from '@/utils/constants'
 import { handleErrors, prettifyDate, sanitizeHTML } from '@/utils'
 import { GuardianApiResponse, GuardianArticles } from '@/types/guardian'
 import axios, { AxiosError, AxiosResponse } from 'axios'
@@ -6,14 +6,14 @@ import { ApiPostResponse, PostResponse } from '@/types/generic'
 
 const guardianAuthToken = import.meta.env.VITE_GUARDIAN_API_KEY || ''
 
-export const getEverythingGuardianPosts = async (
-  page = 0,
-  query = ''
-): Promise<ApiPostResponse> => {
-  const queryString = query ? 'q=' + query : ''
+export const getEverythingGuardianPosts = async ({
+  pageParam = 1,
+  searchQuery = '',
+}): Promise<ApiPostResponse> => {
+  const queryString = searchQuery ? 'q=' + searchQuery : ''
   try {
     const response: AxiosResponse = await axios.get(
-      `${GUARDIAN_ENDPOINT}?${queryString}&api-key=${guardianAuthToken}&page=${page}&show-fields=thumbnail,trailText,publication&page-size=20&order-by=relevance`
+      `${GUARDIAN_ENDPOINT}?${queryString}&api-key=${guardianAuthToken}&page=${pageParam}&page-size=${PAGE_SIZE}&show-fields=thumbnail,trailText,publication&order-by=relevance`
     )
 
     const data: GuardianApiResponse = response.data
@@ -33,7 +33,13 @@ export const getEverythingGuardianPosts = async (
       }
     )
 
-    return { response: res, totalPosts: data.response.total, prevPage: page }
+    const totalPosts = data.response.total
+
+    return {
+      response: res,
+      totalPosts: totalPosts,
+      prevPage: pageParam * res.length < totalPosts ? pageParam + 1 : undefined,
+    }
   } catch (err: unknown) {
     const errorMessage = handleErrors(err as AxiosError)
     throw new Error(errorMessage as string)

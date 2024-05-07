@@ -4,15 +4,16 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import { ApiPostResponse, PostResponse } from '@/types/generic'
 
 const newsApiAuthToken = import.meta.env.VITE_NEWYORK_TIMES_API_KEY || ''
+console.log(newsApiAuthToken)
 
-export const getEverythingNewyorkTimesPosts = async (
-  page = 0,
-  query = ''
-): Promise<ApiPostResponse> => {
-  const queryString = query ? 'q=' + query : ''
+export const getEverythingNewyorkTimesPosts = async ({
+  pageParam = 0,
+  searchQuery = '',
+}): Promise<ApiPostResponse> => {
+  const queryString = searchQuery ? 'q=' + searchQuery : ''
   try {
     const response: AxiosResponse = await axios.get(
-      `${NEWYORK_TIMES_ENDPOINT}?${queryString}&api-key=${newsApiAuthToken}&page=${page}`
+      `${NEWYORK_TIMES_ENDPOINT}?${queryString}&api-key=${newsApiAuthToken}&page=${pageParam}`
     )
 
     const data: NewyorkTimesResponse = response.data
@@ -31,10 +32,13 @@ export const getEverythingNewyorkTimesPosts = async (
         }
       }
     )
+
+    const totalPosts = data.response.meta.hits
+
     return {
       response: res,
-      totalPosts: data.response.meta.hits,
-      prevPage: page,
+      totalPosts: totalPosts,
+      prevPage: pageParam * res.length < totalPosts ? pageParam + 1 : undefined,
     }
   } catch (err: unknown) {
     const errorMessage = handleErrors(err as AxiosError)
