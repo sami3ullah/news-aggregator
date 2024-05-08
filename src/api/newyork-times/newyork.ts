@@ -1,5 +1,5 @@
 import { NEWYORK_TIMES_ENDPOINT, PAGE_SIZE } from '@/utils/constants'
-import { makeNewyorkTimeFilters, handleErrors, prettifyDate } from '@/utils'
+import { handleErrors, prettifyDate } from '@/utils'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { ApiPostResponse, PostResponse } from '@/types/generic'
 
@@ -9,16 +9,12 @@ console.log(newsApiAuthToken)
 export const getEverythingNewyorkTimesPosts = async ({
   pageParam = 1,
   searchQuery = '',
-  filterPostCategory = '',
-  filterPostSource = '',
 }): Promise<ApiPostResponse> => {
   const queryString = searchQuery ? 'q=' + searchQuery : ''
-  const filters = makeNewyorkTimeFilters(filterPostSource, filterPostCategory)
-  console.log(filters)
 
   try {
     const response: AxiosResponse = await axios.get(
-      `${NEWYORK_TIMES_ENDPOINT}?${queryString}&api-key=${newsApiAuthToken}&page=${pageParam}&${filters}`
+      `${NEWYORK_TIMES_ENDPOINT}?${queryString}&api-key=${newsApiAuthToken}&page=${pageParam}`
     )
 
     const data: NewyorkTimesResponse = response.data

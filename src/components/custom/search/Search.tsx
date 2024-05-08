@@ -17,7 +17,7 @@ const Search = () => {
         type="search"
         onChange={debounced}
         placeholder="Search articles..."
-        className="pl-8 w-full border-2 border-gray-300 h-14 placeholder:text-lg placeholder:text-gray-700 text-lg"
+        className="pl-8 w-full border-2 border-gray-300 h-14 placeholder:text-md md:placeholder:text-lg text-lg"
       />
     </div>
   )

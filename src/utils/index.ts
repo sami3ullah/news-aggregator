@@ -1,4 +1,6 @@
 import { AxiosError } from 'axios'
+import { DateRange } from 'react-day-picker'
+import usePostStore from '@/store/posts'
 
 /**
  *
@@ -87,6 +89,8 @@ const getErrorResponse = (error: AxiosError) => {
       return "You don't have the permission to access the resource"
     case 404:
       return "The resource you're looking for is not found"
+    case 426:
+      return 'Please upgrade your API (>_<)'
     case 429:
       return 'Too many requests. slow down :('
     case 500:
@@ -115,21 +119,58 @@ export const sanitizeHTML = (text: string | undefined): string => {
 
 /**
  *
- * @param source string
- * @param category string
- * @param date string
- * @returns Make newyork api style filters like fq=source:"bbc"
+ * @param date as Date or string
+ * @returns date as yyyy-mm-dd format in string
  */
-export const makeNewyorkTimeFilters = (
-  source?: string,
-  category?: string,
-  date?: string
-) => {
-  let filters = []
-  if (source) filters.push(`source:'${source}'`)
-  if (category) filters.push(`news_desk:'${category}'`)
-  if (date) filters.push(`pub_date:'${date}'`)
-  //combining filters and making it in shape like fq=source:"bbc"
-  // or empty string if no condition is met
-  return filters.length > 0 ? 'fq=' + filters.join(' AND ') : ''
+export const formatDateToIsoFormat = (date: Date | undefined): string => {
+  // Ensure date is a Date object
+  const dateObject = date instanceof Date ? date : new Date(date ?? '')
+
+  // Return date in ISO format
+  return dateObject.toISOString()
+}
+
+export const makeNewsApiFilters = () => {
+  const { searchQuery, filterPostCategory, filterPostDate, filterPostSource } =
+    usePostStore.getState()
+  let combinedString = ''
+  let query = queryFilter(searchQuery, filterPostCategory)
+  let date = dateFilter(filterPostDate)
+
+  if (query) {
+    combinedString += query
+  }
+
+  if (date) {
+    combinedString += date
+  }
+
+  if (filterPostSource) {
+    combinedString += `&sources=${filterPostSource}`
+  }
+
+  return combinedString
+}
+
+const queryFilter = (searchQuery: string, filterPostCategory: string) => {
+  let queryString = ''
+  if (searchQuery && filterPostCategory) {
+    queryString = `q=(${searchQuery} AND ${filterPostCategory})`
+    return queryString
+  } else if (filterPostCategory)
+    return (queryString = `q=+${filterPostCategory}`)
+  else if (searchQuery) return (queryString = `q=${searchQuery}`)
+  // failsafe, with newsApi q is required param
+  else return (queryString = `q=random`)
+}
+
+const dateFilter = (date: DateRange | undefined) => {
+  let dateFilter = ''
+  if (date) {
+    if (date.to) {
+      return (dateFilter = `&from=${formatDateToIsoFormat(date.from)}&to=${formatDateToIsoFormat(date.to)}`)
+    }
+    return (dateFilter = `&from=${formatDateToIsoFormat(date.from)}&to=${formatDateToIsoFormat(date.from)}`)
+  }
+  return dateFilter
 }

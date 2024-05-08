@@ -1,31 +1,21 @@
 import { NEWS_API_EVERYTHING_ENDPOINT, PAGE_SIZE } from '@/utils/constants'
-import { handleErrors, prettifyDate } from '@/utils'
+import { handleErrors, makeNewsApiFilters, prettifyDate } from '@/utils'
 import { NewApiEverythingArticles, NewsApiEverythingRes } from '@/types/newsApi'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { ApiPostResponse, PostResponse } from '@/types/generic'
 
 const newsApiAuthToken = import.meta.env.VITE_NEWS_API_KEY || ''
 
+type NewsApiProps = {
+  pageParam?: number
+}
 export const getEveryNewsApiPosts = async ({
   pageParam = 1,
-  searchQuery = '',
-  filterPostSource = '',
-  filterPostCategory = '',
-}): Promise<ApiPostResponse> => {
-  // const queryString = `q=${querySymbol}${searchQuery}`
-  const queryString = () => {
-    let queryString = ''
-    if (searchQuery && filterPostCategory) {
-      queryString = `q=(${searchQuery} AND ${filterPostCategory})`
-      return queryString
-    } else if (filterPostCategory)
-      return (queryString = `q=+${filterPostCategory}`)
-    else return (queryString = `q=${searchQuery}`)
-  }
-  console.log(queryString())
+}: NewsApiProps): Promise<ApiPostResponse> => {
+  const newsApiFilters = makeNewsApiFilters()
   try {
     const response: AxiosResponse = await axios.get(
-      `${NEWS_API_EVERYTHING_ENDPOINT}?${queryString()}&apiKey=${newsApiAuthToken}&page=${pageParam}&pageSize=${PAGE_SIZE}&sortBy=relevance`
+      `${NEWS_API_EVERYTHING_ENDPOINT}?apiKey=${newsApiAuthToken}&page=${pageParam}&pageSize=${PAGE_SIZE}&sortBy=relevance&${newsApiFilters}`
     )
 
     const data: NewsApiEverythingRes = response.data

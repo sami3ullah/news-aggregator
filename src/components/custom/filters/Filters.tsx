@@ -28,7 +28,7 @@ const Filters = () => {
   }
 
   return (
-    <div className="mt-4 md:mt-8 self-end flex items-center">
+    <div className="mt-1 md:mt-8 self-end flex items-center">
       {!!appliedPostFilters && (
         <Button
           variant="link"
@@ -42,9 +42,11 @@ const Filters = () => {
         <SheetTrigger>
           <div className="font-bold underline">Filters Results</div>
         </SheetTrigger>
-        <SheetContent>
+        <SheetContent className="w-full md:w-[400px]">
           <SheetHeader className="gap-12">
-            <SheetTitle>Choose your filters</SheetTitle>
+            <SheetTitle className="text-left text-[1.5rem]">
+              Choose your filters
+            </SheetTitle>
             <div className="mt-[40px] flex flex-col gap-12">
               <CategoryFilter />
               <SourceFilter />

@@ -10,16 +10,15 @@ const PostsWrapper = () => {
   const searchQuery = usePostStore((state) => state.searchQuery)
   const filterPostCategory = usePostStore((state) => state.filterPostCategory)
   const filterPostSource = usePostStore((state) => state.filterPostSource)
+  const filterPostDate = usePostStore((state) => state.filterPostDate)
   const appliedPostFilters = usePostStore((state) => state.appliedPostFilters)
   const setPosts = usePostStore((state) => state.setPosts)
 
+  // deciding which API to use based on different conditions
   const queryFunction = ({ pageParam }: { pageParam: number }) => {
-    if (filterPostCategory || filterPostSource) {
+    if (filterPostCategory || filterPostSource || filterPostDate) {
       return getEveryNewsApiPosts({
         pageParam,
-        searchQuery,
-        filterPostSource,
-        filterPostCategory,
       })
     }
     if (searchQuery) {
@@ -35,6 +34,7 @@ const PostsWrapper = () => {
     }
   }
 
+  // Api call here
   const {
     isLoading,
     data,

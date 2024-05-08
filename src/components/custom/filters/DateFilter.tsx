@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { format } from 'date-fns'
 import { Calendar as CalendarIcon } from 'lucide-react'
-import { DateRange } from 'react-day-picker'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui-library/button'
@@ -12,12 +11,14 @@ import {
   PopoverTrigger,
 } from '@/components/ui-library/popover'
 import { Label } from '@/components/ui-library/label'
+import usePostStore from '@/store/posts'
 
 function DateFilter({ className }: React.HTMLAttributes<HTMLDivElement>) {
-  const [date, setDate] = React.useState<DateRange | undefined>()
+  const date = usePostStore((state) => state.filterPostDate)
+  const setDate = usePostStore((state) => state.setFilterPostDate)
 
   return (
-    <div className={cn('grid gap-2', className)}>
+    <div className={cn('grid justify-items-start gap-2', className)}>
       <Label htmlFor="date" className="font-bold text-gray-900">
         Date
       </Label>
@@ -53,7 +54,7 @@ function DateFilter({ className }: React.HTMLAttributes<HTMLDivElement>) {
             defaultMonth={date?.from}
             selected={date}
             onSelect={setDate}
-            numberOfMonths={2}
+            numberOfMonths={1}
           />
         </PopoverContent>
       </Popover>

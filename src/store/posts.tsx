@@ -1,6 +1,7 @@
 import { ApiEnumType, ApiPostResponse, PostResponse } from '@/types/generic'
-import { makeNewyorkTimeFilters } from '@/utils'
+import { makeNewsApiFilters } from '@/utils'
 import { InfiniteData } from '@tanstack/react-query'
+import { DateRange } from 'react-day-picker'
 import { create } from 'zustand'
 
 export type PostStore = {
@@ -9,12 +10,14 @@ export type PostStore = {
   apiType: ApiEnumType
   filterPostCategory: string
   filterPostSource: string
+  filterPostDate: DateRange | undefined
   appliedPostFilters: string
   setPosts: (newPosts: InfiniteData<ApiPostResponse, unknown>) => void
   setSearchQuery: (query: string) => void
   setApiType: (apiType: ApiEnumType) => void
   setFilterPostCategory: (text: string) => void
   setFilterPostSource: (text: string) => void
+  setFilterPostDate: (date: DateRange | undefined) => void
   setAppliedPostFilters: () => void
   clearFilters: () => void
 }
@@ -25,6 +28,7 @@ const usePostStore = create<PostStore>((set) => ({
   filterPostCategory: '',
   filterPostSource: '',
   appliedPostFilters: '',
+  filterPostDate: undefined,
   apiType: ApiEnumType.GUARDIAN,
 
   setPosts(newPosts: InfiniteData<ApiPostResponse, unknown>) {
@@ -41,7 +45,7 @@ const usePostStore = create<PostStore>((set) => ({
     })
   },
 
-  setSearchQuery(query: string) {
+  setSearchQuery(query) {
     set((state) => ({
       ...state,
       searchQuery: query,
@@ -55,7 +59,7 @@ const usePostStore = create<PostStore>((set) => ({
     }))
   },
 
-  setFilterPostCategory(text: string) {
+  setFilterPostCategory(text) {
     set((state) => ({
       ...state,
       filterPostCategory: text,
@@ -63,7 +67,7 @@ const usePostStore = create<PostStore>((set) => ({
     }))
   },
 
-  setFilterPostSource(text: string) {
+  setFilterPostSource(text) {
     set((state) => ({
       ...state,
       filterPostSource: text,
@@ -71,12 +75,16 @@ const usePostStore = create<PostStore>((set) => ({
     }))
   },
 
+  setFilterPostDate(date) {
+    set((state) => ({
+      ...state,
+      filterPostDate: date,
+    }))
+  },
+
   setAppliedPostFilters() {
     set((state) => {
-      const filters = makeNewyorkTimeFilters(
-        state.filterPostSource,
-        state.filterPostCategory
-      )
+      const filters = makeNewsApiFilters()
       return {
         ...state,
         appliedPostFilters: filters,
@@ -92,6 +100,7 @@ const usePostStore = create<PostStore>((set) => ({
         appliedPostFilters: '',
         filterPostCategory: '',
         filterPostSource: '',
+        filterPostDate: undefined,
       }
     })
   },

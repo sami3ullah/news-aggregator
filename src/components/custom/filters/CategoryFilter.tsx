@@ -14,16 +14,16 @@ const CategoryFilter = () => {
   }
   const debounced = useDebounce(onSourceChange, 1000)
   return (
-    <div className="flex flex-col gap-2">
-      <Label htmlFor="source" className="font-bold text-gray-900">
+    <div className="flex flex-col items-start gap-2">
+      <Label htmlFor="category" className="font-bold text-gray-900">
         Category
       </Label>
       <Input
         type="text"
-        id="source"
+        id="category"
         placeholder="Football"
         onChange={debounced}
-        className="pl-8 w-full border-2 border-gray-300 placeholder:text-gray-700 text-primary"
+        className="pl-8 w-full border-2 border-gray-300 text-primary"
       />
     </div>
   )

@@ -71,8 +71,8 @@ const Posts = ({
 
             {/* if no results found */}
             {!!posts && posts?.length === 0 && (
-              <div className="flex items-center justify-center">
-                <h3 className="text-2xl">Wow, soo empty :-)</h3>
+              <div className="flex items-center justify-center min-h-[50vh]">
+                <h3 className="text-xl md:text-3xl">Wow, soo empty \(o_o)/</h3>
               </div>
             )}
 
