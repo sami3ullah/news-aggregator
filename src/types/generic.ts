@@ -12,3 +12,9 @@ export type ApiPostResponse = {
   totalPosts: number
   prevPage: unknown
 }
+
+export enum ApiEnumType {
+  NEWS_API = 'newsapi',
+  GUARDIAN = 'guardian',
+  NEWYORKTIMES = 'newyorktimes',
+}

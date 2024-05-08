@@ -1,43 +1,41 @@
 import Post from '@/components/custom/post/Post'
 import React from 'react'
-import { useInfiniteQuery } from '@tanstack/react-query'
-import { getEveryNewsApiPosts } from '@/api/news-api/newsApi'
-import { ApiPostResponse, PostResponse } from '@/types/generic'
+import {
+  FetchNextPageOptions,
+  InfiniteData,
+  InfiniteQueryObserverResult,
+  QueryObserverResult,
+  RefetchOptions,
+} from '@tanstack/react-query'
 import ErrorBoundaryWrapped from '../error-boundary/ErrorBoundaryWrapped'
 import Loader from '../loader/Loader'
 import LoadMore from '../load-more/LoadMore'
 import ErrorScreen from '../error-screen/ErrorScreen'
-import { getEverythingGuardianPosts } from '@/api/guardian/guardian'
-import { getEverythingNewyorkTimesPosts } from '@/api/newyork-times/newyork'
+import usePostStore from '@/store/posts'
 
 type Props = {
-  searchQuery: string
+  isLoading: boolean
+  fetchNextPage: (
+    options?: FetchNextPageOptions | undefined
+  ) => Promise<
+    InfiniteQueryObserverResult<InfiniteData<unknown, unknown>, Error>
+  >
+  hasNextPage: boolean
+  isFetchingNextPage: boolean
+  refetch: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<InfiniteData<unknown, unknown>, Error>>
+  error: Error | null
 }
-
-const Posts = ({ searchQuery }: Props) => {
-  const {
-    isLoading,
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    refetch,
-    error,
-  } = useInfiniteQuery({
-    queryKey: ['posts', searchQuery],
-    //@ts-ignore -> known type issue in react query v5
-    queryFn: ({ pageParam }) =>
-      getEverythingNewyorkTimesPosts({
-        pageParam,
-        searchQuery,
-      }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage.prevPage,
-  })
-
-  const articles = data?.pages?.reduce<PostResponse[]>((acc, page) => {
-    return [...acc, ...(page as ApiPostResponse)?.response]
-  }, [])
+const Posts = ({
+  isLoading,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+  refetch,
+  error,
+}: Props) => {
+  const posts = usePostStore((state) => state.posts)
 
   return (
     <div>
@@ -48,9 +46,9 @@ const Posts = ({ searchQuery }: Props) => {
           <div>
             {/* posts display */}
             <div className="flex gap-4 flex-wrap">
-              {!!articles &&
-                !!articles?.length &&
-                articles?.map((article, index) => (
+              {!!posts &&
+                !!posts?.length &&
+                posts?.map((article, index) => (
                   <React.Fragment key={index}>
                     <Post
                       postUrl={article.postUrl}
@@ -65,14 +63,14 @@ const Posts = ({ searchQuery }: Props) => {
             </div>
             {/* load more */}
             <LoadMore
-              articles={articles}
+              articles={posts}
               hasNextPage={hasNextPage}
               isFetchingNextPage={isFetchingNextPage}
               fetchNextPage={fetchNextPage}
             />
 
             {/* if no results found */}
-            {!!articles && articles.length === 0 && (
+            {!!posts && posts?.length === 0 && (
               <div className="flex items-center justify-center">
                 <h3 className="text-2xl">Wow, soo empty :-)</h3>
               </div>

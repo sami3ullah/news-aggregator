@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui-library/button'
-import { Input } from '@/components/ui-library/input'
 import {
   Sheet,
   SheetContent,
@@ -8,13 +7,38 @@ import {
   SheetTrigger,
 } from '@/components/ui-library/sheet'
 import DateFilter from './DateFilter'
-import { Label } from '@/components/ui-library/label'
+import SourceFilter from './SourceFilter'
+import usePostStore from '@/store/posts'
+import CategoryFilter from './CategoryFilter'
+import React from 'react'
+import { X } from 'lucide-react'
 
 const Filters = () => {
+  const setAppliedPostFilters = usePostStore(
+    (state) => state.setAppliedPostFilters
+  )
+  const appliedPostFilters = usePostStore((state) => state.appliedPostFilters)
+
+  const clearFilters = usePostStore((state) => state.clearFilters)
+  const [open, setOpen] = React.useState(false)
+
+  const onClickHandler = () => {
+    setAppliedPostFilters()
+    setOpen(false)
+  }
+
   return (
-    <div className="mt-4 md:mt-8 self-end">
-      {/* <SlidersHorizontal /> */}
-      <Sheet>
+    <div className="mt-4 md:mt-8 self-end flex items-center">
+      {!!appliedPostFilters && (
+        <Button
+          variant="link"
+          onClick={clearFilters}
+          className="font-bold text-md text-neutral-500"
+        >
+          <X size={17} className="mr-1" /> Clear Filters
+        </Button>
+      )}
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger>
           <div className="font-bold underline">Filters Results</div>
         </SheetTrigger>
@@ -22,31 +46,13 @@ const Filters = () => {
           <SheetHeader className="gap-12">
             <SheetTitle>Choose your filters</SheetTitle>
             <div className="mt-[40px] flex flex-col gap-12">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="category" className="font-bold text-gray-900">
-                  Category
-                </Label>
-                <Input
-                  type="text"
-                  id="category"
-                  placeholder="Type your category"
-                  className="pl-8 w-full border-2 border-gray-300 placeholder:text-gray-700"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="source" className="font-bold text-gray-900">
-                  Source
-                </Label>
-                <Input
-                  type="text"
-                  id="source"
-                  placeholder="BBC"
-                  className="pl-8 w-full border-2 border-gray-300 placeholder:text-gray-700"
-                />
-              </div>
+              <CategoryFilter />
+              <SourceFilter />
               {/* Date Filters */}
               <DateFilter />
-              <Button>Filter Results</Button>
+              <Button type="submit" onClick={onClickHandler}>
+                Filter Results
+              </Button>
             </div>
           </SheetHeader>
         </SheetContent>

@@ -112,3 +112,24 @@ export const sanitizeHTML = (text: string | undefined): string => {
 
   return sanitizedText
 }
+
+/**
+ *
+ * @param source string
+ * @param category string
+ * @param date string
+ * @returns Make newyork api style filters like fq=source:"bbc"
+ */
+export const makeNewyorkTimeFilters = (
+  source?: string,
+  category?: string,
+  date?: string
+) => {
+  let filters = []
+  if (source) filters.push(`source:'${source}'`)
+  if (category) filters.push(`news_desk:'${category}'`)
+  if (date) filters.push(`pub_date:'${date}'`)
+  //combining filters and making it in shape like fq=source:"bbc"
+  // or empty string if no condition is met
+  return filters.length > 0 ? 'fq=' + filters.join(' AND ') : ''
+}

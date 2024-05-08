@@ -1,12 +1,11 @@
 import { Input } from '@/components/ui-library/input'
 import useDebounce from '@/hooks/useDebounce'
+import usePostStore from '@/store/posts'
 import React from 'react'
 
-type Props = {
-  setSearchQuery: React.Dispatch<React.SetStateAction<string>>
-}
+const Search = () => {
+  const { setSearchQuery } = usePostStore()
 
-const Search = ({ setSearchQuery }: Props) => {
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
   }

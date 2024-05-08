@@ -9,12 +9,23 @@ const newsApiAuthToken = import.meta.env.VITE_NEWS_API_KEY || ''
 export const getEveryNewsApiPosts = async ({
   pageParam = 1,
   searchQuery = '',
-  querySymbol = '',
+  filterPostSource = '',
+  filterPostCategory = '',
 }): Promise<ApiPostResponse> => {
-  const queryString = `q=${querySymbol}${searchQuery}`
+  // const queryString = `q=${querySymbol}${searchQuery}`
+  const queryString = () => {
+    let queryString = ''
+    if (searchQuery && filterPostCategory) {
+      queryString = `q=(${searchQuery} AND ${filterPostCategory})`
+      return queryString
+    } else if (filterPostCategory)
+      return (queryString = `q=+${filterPostCategory}`)
+    else return (queryString = `q=${searchQuery}`)
+  }
+  console.log(queryString())
   try {
     const response: AxiosResponse = await axios.get(
-      `${NEWS_API_EVERYTHING_ENDPOINT}?${queryString}&apiKey=${newsApiAuthToken}&page=${pageParam}&pageSize=${PAGE_SIZE}&sortBy=relevance`
+      `${NEWS_API_EVERYTHING_ENDPOINT}?${queryString()}&apiKey=${newsApiAuthToken}&page=${pageParam}&pageSize=${PAGE_SIZE}&sortBy=relevance`
     )
 
     const data: NewsApiEverythingRes = response.data
