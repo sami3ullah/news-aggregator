@@ -40,7 +40,7 @@ export const getEveryNewsApiPosts = async ({
     return {
       response: res,
       totalPosts: totalPosts,
-      prevPage: pageParam * res.length < totalPosts ? pageParam + 1 : undefined,
+      nextPage: pageParam * res.length < totalPosts ? pageParam + 1 : undefined,
     }
   } catch (err: unknown) {
     const errorMessage = handleErrors(err as AxiosError)

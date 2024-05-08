@@ -61,13 +61,25 @@ const Posts = ({
                   </React.Fragment>
                 ))}
             </div>
+            {/* Error handling */}
+            {!error ||
+              (error?.message && (
+                <div className="my-12">
+                  <ErrorScreen
+                    errorMessage={error?.message}
+                    retryFn={() => refetch()}
+                  />
+                </div>
+              ))}
             {/* load more */}
-            <LoadMore
-              articles={posts}
-              hasNextPage={hasNextPage}
-              isFetchingNextPage={isFetchingNextPage}
-              fetchNextPage={fetchNextPage}
-            />
+            {!error?.message && (
+              <LoadMore
+                articles={posts}
+                hasNextPage={hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
+                fetchNextPage={fetchNextPage}
+              />
+            )}
 
             {/* if no results found */}
             {!!posts && posts?.length === 0 && (
@@ -75,15 +87,6 @@ const Posts = ({
                 <h3 className="text-xl md:text-3xl">Wow, soo empty \(o_o)/</h3>
               </div>
             )}
-
-            {/* Error handling */}
-            {!error ||
-              (error?.message && (
-                <ErrorScreen
-                  errorMessage={error?.message}
-                  retryFn={() => refetch()}
-                />
-              ))}
           </div>
         </ErrorBoundaryWrapped>
       )}

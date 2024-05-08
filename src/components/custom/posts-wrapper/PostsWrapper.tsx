@@ -5,6 +5,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { getEverythingGuardianPosts } from '@/api/guardian/guardian'
 import { getEveryNewsApiPosts } from '@/api/news-api/newsApi'
 import { getEverythingNewyorkTimesPosts } from '@/api/newyork-times/newyork'
+import { PAGE_SIZE } from '@/utils/constants'
 
 const PostsWrapper = () => {
   const searchQuery = usePostStore((state) => state.searchQuery)
@@ -27,12 +28,18 @@ const PostsWrapper = () => {
         searchQuery,
       })
     } else {
-      return getEverythingGuardianPosts({
+      return getEverythingNewyorkTimesPosts({
         pageParam,
         searchQuery,
       })
     }
   }
+
+  // initial page number based on the API
+  const initialPageParam =
+    filterPostCategory || filterPostSource || filterPostDate || searchQuery
+      ? 1
+      : 0
 
   // Api call here
   const {
@@ -47,8 +54,17 @@ const PostsWrapper = () => {
     queryKey: ['posts', searchQuery, appliedPostFilters],
     //@ts-ignore -> known type issue in react query v5
     queryFn: queryFunction,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage.prevPage,
+    initialPageParam: initialPageParam,
+    // getNextPageParam: (lastPage) => lastPage.nextPage,
+    getNextPageParam: (lastPage) => {
+      if (
+        lastPage.nextPage &&
+        lastPage.nextPage * (PAGE_SIZE + 1) < lastPage.totalPosts
+      ) {
+        return lastPage.nextPage
+      }
+      return []
+    },
   })
 
   // setting posts  to global state

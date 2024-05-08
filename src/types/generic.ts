@@ -10,11 +10,10 @@ export type PostResponse = {
 export type ApiPostResponse = {
   response: PostResponse[]
   totalPosts: number
-  prevPage: unknown
+  nextPage: number | undefined
 }
 
-export enum ApiEnumType {
-  NEWS_API = 'newsapi',
-  GUARDIAN = 'guardian',
-  NEWYORKTIMES = 'newyorktimes',
+export type Select = {
+  label: string
+  value: string
 }

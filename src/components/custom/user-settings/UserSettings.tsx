@@ -14,8 +14,28 @@ import {
   TooltipContent,
 } from '@/components/ui-library/tooltip'
 import { Settings } from 'lucide-react'
+import InputFilter from '../filters/InputFilter'
+import usePostStore from '@/store/posts'
+import Multiselect from '../multiselect/MultiSelect'
 
 const UserSettings = () => {
+  const preferencePostCategories = usePostStore(
+    (state) => state.preferencePostCategories
+  )
+  const preferencePostAuthors = usePostStore(
+    (state) => state.preferencePostAuthors
+  )
+  const preferencePostSources = usePostStore(
+    (state) => state.preferencePostSources
+  )
+
+  console.log(preferencePostSources)
+  const {
+    setPreferencePostCategories,
+    setPreferencePostAuthors,
+    setPreferencePostSources,
+  } = usePostStore()
+
   return (
     <div>
       <TooltipProvider>
@@ -28,13 +48,35 @@ const UserSettings = () => {
                 </Button>
               </TooltipTrigger>
             </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Are you absolutely sure?</SheetTitle>
+            <SheetContent className="w-full md:w-[400px] overflow-y-auto">
+              <SheetHeader className="gap-10">
+                <SheetTitle className="text-left text-[1.5rem]">
+                  User Preferences
+                </SheetTitle>
                 <SheetDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  Personalize your news feed by using the options below. This
+                  will add more diversity to your search.
                 </SheetDescription>
+                <div className="mt-[40px] flex flex-col gap-8">
+                  <InputFilter
+                    value={preferencePostCategories}
+                    setValue={setPreferencePostCategories}
+                    name="Categories"
+                    placeholder="sports,technology"
+                  />
+                  <InputFilter
+                    value={preferencePostAuthors}
+                    setValue={setPreferencePostAuthors}
+                    name="Authors"
+                    placeholder="bbc,guardian"
+                  />
+                  <Multiselect
+                    name="Sources"
+                    values={preferencePostSources}
+                    setValue={setPreferencePostSources}
+                  />
+                  <Button type="submit">Set Preferences</Button>
+                </div>
               </SheetHeader>
             </SheetContent>
           </Sheet>

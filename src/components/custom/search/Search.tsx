@@ -4,26 +4,24 @@ import usePostStore from '@/store/posts'
 import React, { useState, useEffect } from 'react'
 
 const Search = () => {
-  const { searchQuery, setSearchQuery } = usePostStore()
-
-  // Local state for controlled input value
+  const searchQuery = usePostStore((state) => state.searchQuery)
+  const setSearchQuery = usePostStore((state) => state.setSearchQuery)
   const [inputValue, setInputValue] = useState(searchQuery)
 
   // Debounce the setSearchQuery function
   const debounced = useDebounce((value: string) => {
     setSearchQuery(value)
-  }, 1000)
+  })
 
   // Update inputValue when searchQuery changes elsewhere
   useEffect(() => {
     setInputValue(searchQuery)
   }, [searchQuery])
 
-  // Function to handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    setInputValue(value) // Update local state immediately
-    debounced(value) // Debounced update to searchQuery
+    setInputValue(value)
+    debounced(value)
   }
 
   return (

@@ -4,10 +4,9 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import { ApiPostResponse, PostResponse } from '@/types/generic'
 
 const newsApiAuthToken = import.meta.env.VITE_NEWYORK_TIMES_API_KEY || ''
-console.log(newsApiAuthToken)
 
 export const getEverythingNewyorkTimesPosts = async ({
-  pageParam = 1,
+  pageParam = 0,
   searchQuery = '',
 }): Promise<ApiPostResponse> => {
   const queryString = searchQuery ? 'q=' + searchQuery : ''
@@ -21,7 +20,6 @@ export const getEverythingNewyorkTimesPosts = async ({
     /* returning a standarize object. It's always a good practice. Because you don't have to worry about the backend api change. You'll only
     need to change in 1 place + there's no clutter
     */
-    console.log(data)
     const res: PostResponse[] = data?.response?.docs?.map(
       (el: NewyorkTimesArticles) => {
         return {
@@ -43,7 +41,7 @@ export const getEverythingNewyorkTimesPosts = async ({
     return {
       response: limitedRes,
       totalPosts: totalPosts,
-      prevPage: pageParam * res.length < totalPosts ? pageParam + 1 : undefined,
+      nextPage: pageParam * res.length < totalPosts ? pageParam + 1 : undefined,
     }
   } catch (err: unknown) {
     const errorMessage = handleErrors(err as AxiosError)

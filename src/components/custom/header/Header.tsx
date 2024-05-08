@@ -7,7 +7,7 @@ import UserSettings from '../user-settings/UserSettings'
 
 const Header = () => {
   return (
-    <header className="sticky top-0 flex h-16 items-center justify-between gap-4 bg-background px-4 md:px-12">
+    <header className="sticky top-0 flex h-16 items-center justify-between gap-4 bg-background px-4 md:px-12 z-30">
       <div>
         <img src="./logo.png" className="w-[260px] lg:w-[280px] " alt="logo" />
       </div>

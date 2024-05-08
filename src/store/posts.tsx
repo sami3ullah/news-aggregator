@@ -1,4 +1,4 @@
-import { ApiEnumType, ApiPostResponse, PostResponse } from '@/types/generic'
+import { ApiPostResponse, PostResponse, Select } from '@/types/generic'
 import { makeNewsApiFilters } from '@/utils'
 import { InfiniteData } from '@tanstack/react-query'
 import { DateRange } from 'react-day-picker'
@@ -7,18 +7,22 @@ import { create } from 'zustand'
 export type PostStore = {
   posts: Array<PostResponse>
   searchQuery: string
-  apiType: ApiEnumType
   filterPostCategory: string
   filterPostSource: string
   filterPostDate: DateRange | undefined
   appliedPostFilters: string
+  preferencePostCategories: string
+  preferencePostAuthors: string
+  preferencePostSources: Select[]
   setPosts: (newPosts: InfiniteData<ApiPostResponse, unknown>) => void
   setSearchQuery: (query: string) => void
-  setApiType: (apiType: ApiEnumType) => void
   setFilterPostCategory: (text: string) => void
   setFilterPostSource: (text: string) => void
   setFilterPostDate: (date: DateRange | undefined) => void
   setAppliedPostFilters: () => void
+  setPreferencePostCategories: (text: string) => void
+  setPreferencePostAuthors: (text: string) => void
+  setPreferencePostSources: (items: Select[]) => void
   clearFilters: () => void
 }
 
@@ -29,7 +33,9 @@ const usePostStore = create<PostStore>((set) => ({
   filterPostSource: '',
   appliedPostFilters: '',
   filterPostDate: undefined,
-  apiType: ApiEnumType.GUARDIAN,
+  preferencePostCategories: '',
+  preferencePostAuthors: '',
+  preferencePostSources: [],
 
   setPosts(newPosts: InfiniteData<ApiPostResponse, unknown>) {
     set((state) => {
@@ -49,13 +55,6 @@ const usePostStore = create<PostStore>((set) => ({
     set((state) => ({
       ...state,
       searchQuery: query,
-    }))
-  },
-
-  setApiType(apiType: ApiEnumType) {
-    set((state) => ({
-      ...state,
-      apiType: apiType,
     }))
   },
 
@@ -88,6 +87,33 @@ const usePostStore = create<PostStore>((set) => ({
       return {
         ...state,
         appliedPostFilters: filters,
+      }
+    })
+  },
+
+  setPreferencePostCategories(text) {
+    set((state) => {
+      return {
+        ...state,
+        preferencePostCategories: text,
+      }
+    })
+  },
+
+  setPreferencePostAuthors(text) {
+    set((state) => {
+      return {
+        ...state,
+        preferencePostAuthors: text,
+      }
+    })
+  },
+
+  setPreferencePostSources(items) {
+    set((state) => {
+      return {
+        ...state,
+        preferencePostSources: items,
       }
     })
   },
