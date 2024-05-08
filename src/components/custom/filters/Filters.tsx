@@ -18,6 +18,8 @@ const Filters = () => {
     (state) => state.setAppliedPostFilters
   )
   const appliedPostFilters = usePostStore((state) => state.appliedPostFilters)
+  console.log(!!appliedPostFilters)
+  const searchQuery = usePostStore((state) => state.searchQuery)
 
   const clearFilters = usePostStore((state) => state.clearFilters)
   const [open, setOpen] = React.useState(false)
@@ -38,27 +40,29 @@ const Filters = () => {
           <X size={17} className="mr-1" /> Clear Filters
         </Button>
       )}
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger>
-          <div className="font-bold underline">Filters Results</div>
-        </SheetTrigger>
-        <SheetContent className="w-full md:w-[400px]">
-          <SheetHeader className="gap-12">
-            <SheetTitle className="text-left text-[1.5rem]">
-              Choose your filters
-            </SheetTitle>
-            <div className="mt-[40px] flex flex-col gap-12">
-              <CategoryFilter />
-              <SourceFilter />
-              {/* Date Filters */}
-              <DateFilter />
-              <Button type="submit" onClick={onClickHandler}>
-                Filter Results
-              </Button>
-            </div>
-          </SheetHeader>
-        </SheetContent>
-      </Sheet>
+      {(!!appliedPostFilters || !!searchQuery) && (
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger>
+            <div className="font-bold underline">Filters Results</div>
+          </SheetTrigger>
+          <SheetContent className="w-full md:w-[400px]">
+            <SheetHeader className="gap-12">
+              <SheetTitle className="text-left text-[1.5rem]">
+                Choose your filters
+              </SheetTitle>
+              <div className="mt-[40px] flex flex-col gap-12">
+                <CategoryFilter />
+                <SourceFilter />
+                {/* Date Filters */}
+                <DateFilter />
+                <Button type="submit" onClick={onClickHandler}>
+                  Filter Results
+                </Button>
+              </div>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>
+      )}
     </div>
   )
 }
