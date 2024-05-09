@@ -52,7 +52,7 @@ const SourceFilter = () => {
           <Command>
             <CommandInput placeholder="Search sources..." />
             <CommandEmpty>No source found.</CommandEmpty>
-            <CommandList className="max-h-[200px] w-[244px] md:w-[334px] overflow-y-auto">
+            <CommandList className="rambo max-h-[200px] w-[330px] md:w-[334px] overflow-y-auto">
               <CommandGroup>
                 {sources?.map((sources) => (
                   <CommandItem

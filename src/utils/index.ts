@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios'
 import { DateRange } from 'react-day-picker'
 import usePostStore from '@/store/posts'
+import { Select } from '@/types/generic'
 
 /**
  *
@@ -155,7 +156,7 @@ export const makeNewsApiFilters = () => {
   }
 
   if (filterPostSource) {
-    combinedString += `&sources=${filterPostSource}`
+    combinedString += getSources(filterPostSource, preferencePostSources)
   }
 
   return combinedString
@@ -171,50 +172,71 @@ const queryFilter = (
   if (searchQuery && filterPostCategory) {
     queryString = `q=(${searchQuery} AND ${filterPostCategory})`
     if (preferencePostAuthors || preferencePostCategories) {
-      queryString += formatPreferences(
+      queryString += ` AND ${formatPreferences(
         preferencePostAuthors,
         preferencePostCategories
-      )
+      )}`
     }
   } else if (filterPostCategory) {
     queryString = `q=+${filterPostCategory}`
     if (preferencePostAuthors || preferencePostCategories) {
-      queryString += formatPreferences(
+      queryString += ` AND ${formatPreferences(
         preferencePostAuthors,
         preferencePostCategories
-      )
+      )}`
     }
   } else if (searchQuery) {
     queryString = `q=${searchQuery}`
+    if (preferencePostAuthors || preferencePostCategories) {
+      queryString += ` AND ${formatPreferences(
+        preferencePostAuthors,
+        preferencePostCategories
+      )}`
+    }
+  } else {
     if (preferencePostAuthors || preferencePostCategories) {
       queryString += formatPreferences(
         preferencePostAuthors,
         preferencePostCategories
       )
+    } else {
+      // Failsafe, with newsApi q is a required param
+      queryString = `q=random`
     }
-  } else {
-    // Failsafe, with newsApi q is a required param
-    queryString = `q=random`
   }
 
   return queryString
 }
-// const queryFilter = (
-//   searchQuery: string,
-//   filterPostCategory: string,
-//   preferencePostAuthors: string,
-//   preferencePostCategories: string
-// ) => {
-//   let queryString = ''
-//   if (searchQuery && filterPostCategory) {
-//     queryString = `q=(${searchQuery} AND ${filterPostCategory})`
-//     return queryString
-//   } else if (filterPostCategory)
-//     return (queryString = `q=+${filterPostCategory}`)
-//   else if (searchQuery) return (queryString = `q=${searchQuery}`)
-//   // failsafe, with newsApi q is required param
-//   else return (queryString = `q=random`)
-// }
+
+const getSources = (source: string, sources: Select[]): string => {
+  // Create an array with the initial source if it's not empty
+  const allSources = source ? [source] : []
+
+  // Add the ids from the sources array to the allSources array if they exist
+  sources.forEach((s: Select) => {
+    if (s.value) {
+      allSources.push(s.value)
+    }
+  })
+
+  // Join all non-empty sources with commas and prepend with '&sources=' if there are any sources
+  return allSources.length > 0 ? `&sources=${allSources.join(',')}` : ''
+}
+
+// Function to format authors and categories into a part of the search query
+const formatPreferences = (authors: string, categories: string) => {
+  // Split, trim, and filter out empty strings for authors if any
+  const authorsArray = authors
+    .split(',')
+    .map((author) => author.trim())
+    .filter((author) => author)
+  const categoriesArray = categories
+    .split(',')
+    .map((category) => category.trim())
+    .filter((category) => category)
+  const combinedPreferences = authorsArray.concat(categoriesArray).join(' OR ')
+  return combinedPreferences ? `(${combinedPreferences})` : ''
+}
 
 const dateFilter = (date: DateRange | undefined) => {
   let dateFilter = ''
@@ -225,14 +247,4 @@ const dateFilter = (date: DateRange | undefined) => {
     return (dateFilter = `&from=${formatDateToIsoFormat(date.from)}&to=${formatDateToIsoFormat(date.from)}`)
   }
   return dateFilter
-}
-
-// Function to format authors and categories into a part of the query
-const formatPreferences = (authors: string, categories: string) => {
-  const authorsArray = authors.split(',').map((author) => author.trim())
-  const categoriesArray = categories
-    .split(',')
-    .map((category) => category.trim())
-  const combinedPreferences = authorsArray.concat(categoriesArray).join(' OR ')
-  return combinedPreferences ? ` AND (${combinedPreferences})` : ''
 }

@@ -31,7 +31,7 @@ const Search = () => {
         value={inputValue}
         onChange={handleInputChange}
         placeholder="Search articles..."
-        className="pl-8 w-full border-2 border-gray-300 h-14 placeholder:text-md md:placeholder:text-lg text-lg"
+        className="pl-8 w-full border-2 border-gray-300 h-12 md:h-14 placeholder:text-md md:placeholder:text-lg text-lg"
       />
     </div>
   )

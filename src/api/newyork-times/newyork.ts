@@ -34,7 +34,6 @@ export const getEverythingNewyorkTimesPosts = async ({
     )
 
     // Limit the number of results to PAGE_SIZE as newyorktimes api doesn't have page-size
-    // console.log(pageParam * PAGE_SIZE, res.length)
     const limitedRes = res.slice(0, PAGE_SIZE)
     const totalPosts = data?.response?.meta?.hits
 

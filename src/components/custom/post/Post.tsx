@@ -35,11 +35,11 @@ export function Post({
             alt="article image"
           />
         </div>
-        <CardHeader className="flex min-h-[300px] flex-col gap-[12px] justify-between">
+        <CardHeader className="flex min-h-0 md:min-h-[280px] lg:min-h-[250px] flex-col gap-[12px] justify-between">
           {/* main content */}
           <div className="flex flex-col gap-[12px]">
             <CardTitle className="text-lg group-hover:underline">
-              {title}
+              {truncateTextByChars(title, 119)}
             </CardTitle>
             <CardDescription className="text-[14px] !mt-0">
               {truncateTextByChars(description)}

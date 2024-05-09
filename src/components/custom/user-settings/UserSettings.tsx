@@ -29,7 +29,6 @@ const UserSettings = () => {
     (state) => state.preferencePostSources
   )
 
-  console.log(preferencePostSources)
   const {
     setPreferencePostCategories,
     setPreferencePostAuthors,
@@ -42,8 +41,12 @@ const UserSettings = () => {
         <Tooltip>
           <Sheet>
             <SheetTrigger asChild>
-              <TooltipTrigger className="lola" asChild>
-                <Button variant="rounded" size="icon">
+              <TooltipTrigger asChild>
+                <Button
+                  variant="rounded"
+                  size="icon"
+                  className="w-10 h-10 md:w-12 md:h-12"
+                >
                   <Settings />
                 </Button>
               </TooltipTrigger>
@@ -53,7 +56,7 @@ const UserSettings = () => {
                 <SheetTitle className="text-left text-[1.5rem]">
                   User Preferences
                 </SheetTitle>
-                <SheetDescription>
+                <SheetDescription className="text-left">
                   Personalize your news feed by using the options below. This
                   will add more diversity to your search.
                 </SheetDescription>
