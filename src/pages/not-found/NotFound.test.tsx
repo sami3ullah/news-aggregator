@@ -3,7 +3,7 @@ import NotFound from './NotFound'
 import { MemoryRouter } from 'react-router-dom'
 
 describe('NotFound', () => {
-  test('Not found page is rendering', async () => {
+  test('Page is rendering', async () => {
     render(<NotFound />)
     // ASSERT
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()

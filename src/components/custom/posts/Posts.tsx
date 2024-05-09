@@ -38,7 +38,7 @@ const Posts = ({
   const posts = usePostStore((state) => state.posts)
 
   return (
-    <div>
+    <div data-testid="posts">
       {!!isLoading ? (
         <Loader />
       ) : (

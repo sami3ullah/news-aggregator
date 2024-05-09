@@ -68,7 +68,7 @@ const PostsWrapper = () => {
   }, [data])
 
   return (
-    <div>
+    <div data-testid="posts-wrapper">
       <Posts
         isLoading={isLoading}
         fetchNextPage={fetchNextPage}
