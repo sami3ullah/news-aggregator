@@ -13,7 +13,11 @@ const Header = () => {
       </div>
       <div className="flex items-center gap-4">
         <Avatar className="w-10 h-10 md:w-12 md:h-12">
-          <AvatarImage src="./avatar-image.png" alt="user profile image" />
+          <AvatarImage
+            src="./avatar-image.png"
+            role="img"
+            alt="User Profile Image"
+          />
           <AvatarFallback>User</AvatarFallback>
         </Avatar>
         <UserSettings />

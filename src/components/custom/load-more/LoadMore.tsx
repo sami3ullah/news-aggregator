@@ -35,7 +35,10 @@ const LoadMore = ({
           >
             {isFetchingNextPage ? (
               <div className="flex gap-2">
-                <LoaderCircle className="animate-spin" />
+                <LoaderCircle
+                  data-testid="spinbutton"
+                  className="animate-spin"
+                />
                 Loading more...
               </div>
             ) : hasNextPage ? (

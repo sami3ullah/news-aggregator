@@ -52,6 +52,7 @@ const UserSettings = () => {
               <TooltipTrigger asChild>
                 <Button
                   variant="rounded"
+                  role="user-settings"
                   size="icon"
                   className="w-10 h-10 md:w-12 md:h-12"
                 >

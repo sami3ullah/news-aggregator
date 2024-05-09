@@ -57,7 +57,7 @@ const Multiselect = ({ name = '', values, setValue }: Props) => {
   const selectables = sources.filter((source) => !values.includes(source))
 
   return (
-    <div className="flex flex-col items-start gap-2">
+    <div className="flex flex-col items-start gap-2" data-testid={name}>
       <Label htmlFor={name.toLowerCase()} className="font-bold text-gray-900">
         {name}
       </Label>
@@ -73,6 +73,8 @@ const Multiselect = ({ name = '', values, setValue }: Props) => {
                 <Badge key={source.value} variant="secondary">
                   {source.label}
                   <button
+                    role="button"
+                    data-testid="remove button"
                     className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
@@ -97,7 +99,7 @@ const Multiselect = ({ name = '', values, setValue }: Props) => {
               onValueChange={setInputValue}
               onBlur={() => setOpen(false)}
               onFocus={() => setOpen(true)}
-              placeholder="Select frameworks..."
+              placeholder="Select Sources..."
               className="ml-2 bg-transparent outline-none placeholder:text-muted-foreground flex-1"
             />
           </div>
