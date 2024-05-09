@@ -14,7 +14,9 @@ import { X } from 'lucide-react'
 import InputFilter from './InputFilter'
 
 const Filters = () => {
-  const appliedPostFilters = usePostStore((state) => state.appliedPostFilters)
+  const filterPostSource = usePostStore((state) => state.filterPostSource)
+  const filterPostDate = usePostStore((state) => state.filterPostDate)
+  const searchQuery = usePostStore((state) => state.searchQuery)
   const filterPostCategory = usePostStore((state) => state.filterPostCategory)
   const { clearFilters, setAppliedPostFilters, setFilterPostCategory } =
     usePostStore()
@@ -25,9 +27,12 @@ const Filters = () => {
     setOpen(false)
   }
 
+  const filtersApplied =
+    filterPostSource || filterPostDate || searchQuery || filterPostCategory
+
   return (
     <div className="mt-1 md:mt-8 self-end flex items-center">
-      {!!appliedPostFilters && (
+      {!!filtersApplied && (
         <Button
           variant="link"
           onClick={clearFilters}

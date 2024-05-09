@@ -2,6 +2,7 @@ import { AxiosError } from 'axios'
 import { DateRange } from 'react-day-picker'
 import usePostStore from '@/store/posts'
 import { Select } from '@/types/generic'
+import { NewApiErrorRes } from '@/types/newsApi'
 
 /**
  *
@@ -76,6 +77,7 @@ export const handleErrors = (error: AxiosError) => {
 }
 
 const getErrorResponse = (error: AxiosError) => {
+  const errorData = error.response?.data as NewApiErrorRes
   const errorCode = error.response?.status
   switch (errorCode) {
     case 400:
@@ -87,7 +89,8 @@ const getErrorResponse = (error: AxiosError) => {
     case 404:
       return "The resource you're looking for is not found"
     case 426:
-      return 'Please upgrade your API (>_<)'
+      console.log(error.response)
+      return `Oh no (>_<). ${errorData?.message}`
     case 429:
       return 'Too many requests. slow down :('
     case 500:
@@ -145,7 +148,9 @@ export const makeNewsApiFilters = () => {
     preferencePostAuthors,
     preferencePostCategories
   )
+  console.log(query)
   let date = dateFilter(filterPostDate)
+  let sources = getSources(filterPostSource, preferencePostSources)
 
   if (query) {
     combinedString += query
@@ -155,8 +160,8 @@ export const makeNewsApiFilters = () => {
     combinedString += date
   }
 
-  if (filterPostSource) {
-    combinedString += getSources(filterPostSource, preferencePostSources)
+  if (sources) {
+    combinedString += sources
   }
 
   return combinedString

@@ -9,15 +9,13 @@ import { PAGE_SIZE } from '@/utils/constants'
 
 const PostsWrapper = () => {
   const searchQuery = usePostStore((state) => state.searchQuery)
-  const filterPostCategory = usePostStore((state) => state.filterPostCategory)
-  const filterPostSource = usePostStore((state) => state.filterPostSource)
-  const filterPostDate = usePostStore((state) => state.filterPostDate)
   const appliedPostFilters = usePostStore((state) => state.appliedPostFilters)
+  console.log(appliedPostFilters)
   const setPosts = usePostStore((state) => state.setPosts)
 
   // deciding which API to use based on different conditions
   const queryFunction = ({ pageParam }: { pageParam: number }) => {
-    if (filterPostCategory || filterPostSource || filterPostDate) {
+    if (appliedPostFilters) {
       return getEveryNewsApiPosts({
         pageParam,
       })
@@ -36,10 +34,7 @@ const PostsWrapper = () => {
   }
 
   // initial page number based on the API
-  const initialPageParam =
-    filterPostCategory || filterPostSource || filterPostDate || searchQuery
-      ? 1
-      : 0
+  const initialPageParam = appliedPostFilters || searchQuery ? 1 : 0
 
   // Api call here
   const {

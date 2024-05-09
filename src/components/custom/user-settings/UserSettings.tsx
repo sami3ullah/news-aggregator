@@ -17,8 +17,10 @@ import { Settings } from 'lucide-react'
 import InputFilter from '../filters/InputFilter'
 import usePostStore from '@/store/posts'
 import Multiselect from '../multiselect/MultiSelect'
+import React from 'react'
 
 const UserSettings = () => {
+  const [open, setOpen] = React.useState(false)
   const preferencePostCategories = usePostStore(
     (state) => state.preferencePostCategories
   )
@@ -33,13 +35,19 @@ const UserSettings = () => {
     setPreferencePostCategories,
     setPreferencePostAuthors,
     setPreferencePostSources,
+    setAppliedPostFilters,
   } = usePostStore()
+
+  const onClickHandler = () => {
+    setAppliedPostFilters()
+    setOpen(false)
+  }
 
   return (
     <div>
       <TooltipProvider>
         <Tooltip>
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <TooltipTrigger asChild>
                 <Button
@@ -78,7 +86,9 @@ const UserSettings = () => {
                     values={preferencePostSources}
                     setValue={setPreferencePostSources}
                   />
-                  <Button type="submit">Set Preferences</Button>
+                  <Button type="submit" onClick={onClickHandler}>
+                    Set Preferences
+                  </Button>
                 </div>
               </SheetHeader>
             </SheetContent>

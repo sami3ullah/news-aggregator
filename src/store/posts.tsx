@@ -84,6 +84,7 @@ const usePostStore = create<PostStore>((set) => ({
   setAppliedPostFilters() {
     set((state) => {
       const filters = makeNewsApiFilters()
+      console.log(filters)
       return {
         ...state,
         appliedPostFilters: filters,
@@ -123,7 +124,6 @@ const usePostStore = create<PostStore>((set) => ({
       return {
         ...state,
         searchQuery: '',
-        appliedPostFilters: '',
         filterPostCategory: '',
         filterPostSource: '',
         filterPostDate: undefined,

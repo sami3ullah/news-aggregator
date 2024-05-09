@@ -25,7 +25,9 @@ const ErrorScreen = ({ errorMessage, retryFn, fullHeight = false }: Props) => {
     <div
       className={`flex flex-col gap-4 items-center justify-center ${fullHeight ? 'min-h-screen' : ''}`}
     >
-      <h3 className="text-2xl">{errorMessage}</h3>
+      <h3 className="text-2xl w-full md:w-[80%] lg:w-[50%] text-center">
+        {errorMessage}
+      </h3>
       <Button onClick={onClickHandler}>
         <div className="flex gap-2">
           {!!loading && <LoaderCircle className="animate-spin" />}

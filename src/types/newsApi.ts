@@ -19,3 +19,9 @@ type Source = {
   id: null | string
   name: string
 }
+
+export type NewApiErrorRes = {
+  code: string
+  message: string
+  status: string
+}
