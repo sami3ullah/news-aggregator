@@ -8,13 +8,9 @@ import usePostStore from '@/store/posts'
  * @returns returns date if date greater than a year other returns date in ago format
  */
 export function prettifyDate(dateString: string): string {
-  // Parse the date string into a Date object
   const date = new Date(dateString)
-
   // Get the current time in milliseconds
   const now = new Date().getTime()
-
-  // Calculate the difference in milliseconds
   const difference = now - date.getTime()
 
   // Calculate the number of seconds, minutes, hours, days, weeks, months and years
@@ -131,10 +127,23 @@ export const formatDateToIsoFormat = (date: Date | undefined): string => {
 }
 
 export const makeNewsApiFilters = () => {
-  const { searchQuery, filterPostCategory, filterPostDate, filterPostSource } =
-    usePostStore.getState()
+  const {
+    searchQuery,
+    filterPostCategory,
+    filterPostDate,
+    filterPostSource,
+    preferencePostSources,
+    preferencePostAuthors,
+    preferencePostCategories,
+  } = usePostStore.getState()
+
   let combinedString = ''
-  let query = queryFilter(searchQuery, filterPostCategory)
+  let query = queryFilter(
+    searchQuery,
+    filterPostCategory,
+    preferencePostAuthors,
+    preferencePostCategories
+  )
   let date = dateFilter(filterPostDate)
 
   if (query) {
@@ -152,17 +161,60 @@ export const makeNewsApiFilters = () => {
   return combinedString
 }
 
-const queryFilter = (searchQuery: string, filterPostCategory: string) => {
+const queryFilter = (
+  searchQuery: string,
+  filterPostCategory: string,
+  preferencePostAuthors: string,
+  preferencePostCategories: string
+) => {
   let queryString = ''
   if (searchQuery && filterPostCategory) {
     queryString = `q=(${searchQuery} AND ${filterPostCategory})`
-    return queryString
-  } else if (filterPostCategory)
-    return (queryString = `q=+${filterPostCategory}`)
-  else if (searchQuery) return (queryString = `q=${searchQuery}`)
-  // failsafe, with newsApi q is required param
-  else return (queryString = `q=random`)
+    if (preferencePostAuthors || preferencePostCategories) {
+      queryString += formatPreferences(
+        preferencePostAuthors,
+        preferencePostCategories
+      )
+    }
+  } else if (filterPostCategory) {
+    queryString = `q=+${filterPostCategory}`
+    if (preferencePostAuthors || preferencePostCategories) {
+      queryString += formatPreferences(
+        preferencePostAuthors,
+        preferencePostCategories
+      )
+    }
+  } else if (searchQuery) {
+    queryString = `q=${searchQuery}`
+    if (preferencePostAuthors || preferencePostCategories) {
+      queryString += formatPreferences(
+        preferencePostAuthors,
+        preferencePostCategories
+      )
+    }
+  } else {
+    // Failsafe, with newsApi q is a required param
+    queryString = `q=random`
+  }
+
+  return queryString
 }
+// const queryFilter = (
+//   searchQuery: string,
+//   filterPostCategory: string,
+//   preferencePostAuthors: string,
+//   preferencePostCategories: string
+// ) => {
+//   let queryString = ''
+//   if (searchQuery && filterPostCategory) {
+//     queryString = `q=(${searchQuery} AND ${filterPostCategory})`
+//     return queryString
+//   } else if (filterPostCategory)
+//     return (queryString = `q=+${filterPostCategory}`)
+//   else if (searchQuery) return (queryString = `q=${searchQuery}`)
+//   // failsafe, with newsApi q is required param
+//   else return (queryString = `q=random`)
+// }
 
 const dateFilter = (date: DateRange | undefined) => {
   let dateFilter = ''
@@ -173,4 +225,14 @@ const dateFilter = (date: DateRange | undefined) => {
     return (dateFilter = `&from=${formatDateToIsoFormat(date.from)}&to=${formatDateToIsoFormat(date.from)}`)
   }
   return dateFilter
+}
+
+// Function to format authors and categories into a part of the query
+const formatPreferences = (authors: string, categories: string) => {
+  const authorsArray = authors.split(',').map((author) => author.trim())
+  const categoriesArray = categories
+    .split(',')
+    .map((category) => category.trim())
+  const combinedPreferences = authorsArray.concat(categoriesArray).join(' OR ')
+  return combinedPreferences ? ` AND (${combinedPreferences})` : ''
 }
