@@ -14,7 +14,7 @@ import {
   TooltipContent,
 } from '@/components/ui-library/tooltip'
 import { Settings } from 'lucide-react'
-import InputFilter from '../filters/InputFilter'
+import InputFilter from '../filters/input-filter/InputFilter'
 import usePostStore from '@/store/posts'
 import Multiselect from '../multiselect/MultiSelect'
 import React from 'react'

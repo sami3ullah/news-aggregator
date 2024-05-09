@@ -6,12 +6,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui-library/sheet'
-import DateFilter from './DateFilter'
-import SourceFilter from './SourceFilter'
+import DateFilter from './date-filter/DateFilter'
+import SourceFilter from './source-filter/SourceFilter'
 import usePostStore from '@/store/posts'
 import React from 'react'
 import { X } from 'lucide-react'
-import InputFilter from './InputFilter'
+import InputFilter from './input-filter/InputFilter'
 
 const Filters = () => {
   const filterPostSource = usePostStore((state) => state.filterPostSource)
@@ -31,7 +31,10 @@ const Filters = () => {
     filterPostSource || filterPostDate || searchQuery || filterPostCategory
 
   return (
-    <div className="mt-1 md:mt-8 self-end flex items-center">
+    <div
+      className="mt-1 md:mt-8 self-end flex items-center"
+      data-testid="filters"
+    >
       {!!filtersApplied && (
         <Button
           variant="link"

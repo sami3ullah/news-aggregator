@@ -43,7 +43,7 @@ function DateFilter({ className }: React.HTMLAttributes<HTMLDivElement>) {
                 format(date.from, 'LLL dd, y')
               )
             ) : (
-              <span>Pick a date</span>
+              <span data-testid="pick a date">Pick a date</span>
             )}
           </Button>
         </PopoverTrigger>
