@@ -7,7 +7,7 @@
 [Project Setup](#project-setup)<br>
 [Important](#important)<br>
 [Tech Stack](#tech-stack)<br>
-[Diagrams For Better Understand](#diagrams)
+[Diagrams For Better Understand](#diagrams-for-better-understanding)
 [Some Improvement](#improvements)
 
 ## Get The APis
@@ -78,7 +78,7 @@ Overall,
 7. Zustand ( For state Management. Since it's relatively not a giant app so it's great and I love it :3 ) 
 8. Vitest ( For awesome testing experince )
 
-## Diagrams For Better Understand
+## Diagrams For Better Understanding
 
 [Architecture Diagrams](https://app.eraser.io/workspace/iz8b8rd6fiKfL4Ocqv1i?origin=share)
 
