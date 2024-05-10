@@ -31,12 +31,10 @@ VITE_NEWYORK_TIMES_API_KEY=YOUR_API_KEY_HERE
 
 ```
 
-
 > ### Installation using Docker
 
 1. Make sure you have docker installed or get it from here [Docker Download](https://www.docker.com/products/docker-desktop/)
 2. Run `docker-compose up --build news-aggregator`
-
 
 > ### Installation using NPM
 
@@ -50,7 +48,6 @@ VITE_NEWYORK_TIMES_API_KEY=YOUR_API_KEY_HERE
 #### Run the tests
 
 `npm test`
-
 
 ## Important
 
