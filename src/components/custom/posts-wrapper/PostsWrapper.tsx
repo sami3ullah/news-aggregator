@@ -7,6 +7,7 @@ import { getInitialPageParams, getNextParams, getPostsData } from '@/utils'
 const PostsWrapper = () => {
   const searchQuery = usePostStore((state) => state.searchQuery)
   const appliedPostFilters = usePostStore((state) => state.appliedPostFilters)
+  const filterPostSource = usePostStore((state) => state.filterPostSource)
   const setPosts = usePostStore((state) => state.setPosts)
 
   // Api call here
@@ -19,13 +20,16 @@ const PostsWrapper = () => {
     refetch,
     error,
   } = useInfiniteQuery({
-    queryKey: ['posts', searchQuery, appliedPostFilters],
+    queryKey: ['posts', searchQuery, appliedPostFilters, filterPostSource],
     //@ts-ignore -> known type issue in react query v5
     queryFn: ({ pageParam }) => getPostsData(pageParam),
     initialPageParam: getInitialPageParams(),
     getNextPageParam: (lastPage) => getNextParams(lastPage),
   })
 
+  console.log(searchQuery)
+  console.log(appliedPostFilters)
+  console.log(filterPostSource)
   // setting posts  to global state
   React.useEffect(() => {
     if (data) {
