@@ -96,6 +96,6 @@ Overall,
 
 # Improvement Pointers
 
-1. Integrate a sleep mechanism to handle rate-limiting errors.
-2. Write more unit tests + integration and end to end tests.
+1. Implement a sleeping mechanism to handle rate-limiting errors.
+2. Integration tests and end to end tests.
 3. Global state can be further broken down.
