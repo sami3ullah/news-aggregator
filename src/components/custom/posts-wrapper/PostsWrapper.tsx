@@ -48,7 +48,6 @@ const PostsWrapper = () => {
     //@ts-ignore -> known type issue in react query v5
     queryFn: queryFunction,
     initialPageParam: initialPageParam,
-    // getNextPageParam: (lastPage) => lastPage.nextPage,
     getNextPageParam: (lastPage) => {
       if (
         lastPage.nextPage &&
@@ -56,13 +55,17 @@ const PostsWrapper = () => {
       ) {
         return lastPage.nextPage
       }
-      return []
+      return undefined
     },
   })
 
+  console.log(hasNextPage)
+
   // setting posts  to global state
   React.useEffect(() => {
-    setPosts(data)
+    if (data) {
+      setPosts(data)
+    }
   }, [data])
 
   return (

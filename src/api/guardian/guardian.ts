@@ -23,12 +23,12 @@ export const getEverythingGuardianPosts = async ({
     const res: PostResponse[] = data.response.results.map(
       (el: GuardianArticles) => {
         return {
-          postUrl: el.webUrl,
-          imageUrl: el.fields?.thumbnail,
-          title: el.webTitle,
-          description: sanitizeHTML(el.fields?.trailText),
-          time: prettifyDate(el.webPublicationDate),
-          source: el.fields?.publication,
+          postUrl: el?.webUrl,
+          imageUrl: el?.fields?.thumbnail,
+          title: el?.webTitle,
+          description: sanitizeHTML(el?.fields?.trailText),
+          time: prettifyDate(el?.webPublicationDate),
+          source: el?.fields?.publication,
         }
       }
     )
@@ -38,7 +38,8 @@ export const getEverythingGuardianPosts = async ({
     return {
       response: res,
       totalPosts: totalPosts,
-      nextPage: pageParam * res.length < totalPosts ? pageParam + 1 : undefined,
+      nextPage:
+        (pageParam + 1) * res.length < totalPosts ? pageParam + 1 : undefined,
     }
   } catch (err: unknown) {
     const errorMessage = handleErrors(err as AxiosError)

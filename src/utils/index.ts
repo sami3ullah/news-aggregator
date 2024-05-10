@@ -204,7 +204,7 @@ const queryFilter = (
       )
     } else {
       // Failsafe, with newsApi q is a required param
-      queryString = `q=random`
+      queryString = `q=war`
     }
   }
 

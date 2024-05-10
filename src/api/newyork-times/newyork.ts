@@ -20,12 +20,12 @@ export const getEverythingNewyorkTimesPosts = async ({
     const res: PostResponse[] = data?.response?.docs?.map(
       (el: NewyorkTimesArticles) => {
         return {
-          postUrl: el.web_url,
-          imageUrl: `http://www.nytimes.com/${el.multimedia[0].url}`,
-          title: el.abstract,
-          description: el.lead_paragraph,
-          time: prettifyDate(el.pub_date),
-          source: el.source,
+          postUrl: el?.web_url,
+          imageUrl: `http://www.nytimes.com/${el?.multimedia[0]?.url}`,
+          title: el?.abstract,
+          description: el?.lead_paragraph,
+          time: prettifyDate(el?.pub_date),
+          source: el?.source,
         }
       }
     )
@@ -37,7 +37,8 @@ export const getEverythingNewyorkTimesPosts = async ({
     return {
       response: limitedRes,
       totalPosts: totalPosts,
-      nextPage: pageParam * res.length < totalPosts ? pageParam + 1 : undefined,
+      nextPage:
+        (pageParam + 1) * res.length < totalPosts ? pageParam + 1 : undefined,
     }
   } catch (err: unknown) {
     const errorMessage = handleErrors(err as AxiosError)

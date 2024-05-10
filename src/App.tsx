@@ -5,7 +5,6 @@ import NotFound from './pages/not-found/NotFound'
 import './index.css'
 import { queryClient } from './utils/reactQueryConfig'
 import ErrorBoundaryWrapped from './components/custom/error-boundary/ErrorBoundaryWrapped'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export function App() {
   return (
@@ -21,7 +20,6 @@ export function WrappedApp() {
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <ErrorBoundaryWrapped>
-          <ReactQueryDevtools initialIsOpen={false} />
           <App />
         </ErrorBoundaryWrapped>
       </QueryClientProvider>

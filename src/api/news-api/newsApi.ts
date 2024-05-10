@@ -25,12 +25,12 @@ export const getEveryNewsApiPosts = async ({
     const res: PostResponse[] = data.articles.map(
       (el: NewApiEverythingArticles) => {
         return {
-          postUrl: el.url,
-          imageUrl: el.urlToImage,
-          title: el.title,
-          description: el.description,
-          time: prettifyDate(el.publishedAt),
-          source: el.source.name,
+          postUrl: el?.url,
+          imageUrl: el?.urlToImage,
+          title: el?.title,
+          description: el?.description,
+          time: prettifyDate(el?.publishedAt),
+          source: el?.source?.name,
         }
       }
     )
@@ -40,7 +40,8 @@ export const getEveryNewsApiPosts = async ({
     return {
       response: res,
       totalPosts: totalPosts,
-      nextPage: pageParam * res.length < totalPosts ? pageParam + 1 : undefined,
+      nextPage:
+        (pageParam + 1) * res.length < totalPosts ? pageParam + 1 : undefined,
     }
   } catch (err: unknown) {
     const errorMessage = handleErrors(err as AxiosError)
