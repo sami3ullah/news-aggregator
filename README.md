@@ -8,7 +8,7 @@
 [Important](#important)<br>
 [Tech Stack](#tech-stack)<br>
 [Diagrams For Better Understand](#diagrams-for-better-understanding)
-[Some Improvement](#improvements)
+[Some Improvement](#improvement-pointers)
 
 ## Get The APis
 
@@ -40,7 +40,6 @@
 2. Create a new file at root level of project with `touch .env` and copy all the contents of .env.template inside of .env and change it with real API keys
 3. Now run `docker-compose up --build news-aggregator`
 
-
 ## Important
 
 #### Assignment Api resources
@@ -59,7 +58,7 @@ Overall,
 - The Guardian API is exclusively utilized for conducting searches within the application.
 - For tasks such as filtering and managing user preferences, NewsAPI is the preferred API.
 - Notably, when users apply filters or set preferences and subsequently perform a search, NewsAPI's extensive filtering functionalities are activated.
-- Conversely, if no filters or preferences are set and a search is initiated, the Guardian API is dynamically employed to handle the search query. 
+- Conversely, if no filters or preferences are set and a search is initiated, the Guardian API is dynamically employed to handle the search query.
 
 #### Assumptions
 
@@ -75,14 +74,15 @@ Overall,
 4. Shadcn ( For beautiful styled components )
 5. Axios (Because I like it more than Fetch )
 6. ReactQuery ( For Caching queries and lot of other cool stuff )
-7. Zustand ( For state Management. Since it's relatively not a giant app so it's great and I love it :3 ) 
+7. Zustand ( For state Management. Since it's relatively not a giant app so it's great and I love it :3 )
 8. Vitest ( For awesome testing experince )
 
 ## Diagrams For Better Understanding
 
 [Architecture Diagrams](https://app.eraser.io/workspace/iz8b8rd6fiKfL4Ocqv1i?origin=share)
 
-# Improvements
+# Improvement Pointers
 
 1. Integrate a sleep mechanism to handle rate-limiting errors.
-2. Write more unit tests + integration and end to end tests.  
+2. Write more unit tests + integration and end to end tests.
+3. Global state can be further broken down.
