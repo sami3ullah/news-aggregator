@@ -1,30 +1,18 @@
 import Post from '@/components/custom/post/Post'
 import React from 'react'
-import {
-  FetchNextPageOptions,
-  InfiniteData,
-  InfiniteQueryObserverResult,
-  QueryObserverResult,
-  RefetchOptions,
-} from '@tanstack/react-query'
 import ErrorBoundaryWrapped from '../error-boundary/ErrorBoundaryWrapped'
 import Loader from '../loader/Loader'
 import LoadMore from '../load-more/LoadMore'
 import ErrorScreen from '../error-screen/ErrorScreen'
 import usePostStore from '@/store/posts'
+import { fetchNextPageType, refetchQueryType } from '@/types/generic'
 
 type Props = {
   isLoading: boolean
-  fetchNextPage: (
-    options?: FetchNextPageOptions | undefined
-  ) => Promise<
-    InfiniteQueryObserverResult<InfiniteData<unknown, unknown>, Error>
-  >
+  fetchNextPage: fetchNextPageType
   hasNextPage: boolean
   isFetchingNextPage: boolean
-  refetch: (
-    options?: RefetchOptions | undefined
-  ) => Promise<QueryObserverResult<InfiniteData<unknown, unknown>, Error>>
+  refetch: refetchQueryType
   error: Error | null
 }
 const Posts = ({

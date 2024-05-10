@@ -1,8 +1,12 @@
 import { AxiosError } from 'axios'
 import { DateRange } from 'react-day-picker'
 import usePostStore from '@/store/posts'
-import { Select } from '@/types/generic'
+import { ApiPostResponse, Select } from '@/types/generic'
 import { NewApiErrorRes } from '@/types/newsApi'
+import { getEveryNewsApiPosts } from '@/api/news-api/newsApi'
+import { getEverythingGuardianPosts } from '@/api/guardian/guardian'
+import { getEverythingNewyorkTimesPosts } from '@/api/newyork-times/newyork'
+import { PAGE_SIZE } from './constants'
 
 /**
  *
@@ -250,4 +254,45 @@ const dateFilter = (date: DateRange | undefined) => {
     return (dateFilter = `&from=${formatDateToIsoFormat(date.from)}&to=${formatDateToIsoFormat(date.from)}`)
   }
   return dateFilter
+}
+
+/**
+ * Decides that which API to call based on certain criteria
+ * @param pageParam number
+ * @returns respective function to call
+ */
+export const getPostsData = (pageParam: number) => {
+  const { searchQuery, appliedPostFilters } = usePostStore.getState()
+  if (appliedPostFilters) {
+    return getEveryNewsApiPosts({ pageParam })
+  }
+  if (searchQuery) {
+    return getEverythingGuardianPosts({ pageParam, searchQuery })
+  }
+  return getEverythingNewyorkTimesPosts({ pageParam })
+}
+
+/**
+ *
+ * @returns initial page param based on certain criteria
+ */
+export const getInitialPageParams = () => {
+  const { searchQuery, appliedPostFilters } = usePostStore.getState()
+  const initialPageParam = appliedPostFilters || searchQuery ? 1 : 0
+  return initialPageParam
+}
+
+/**
+ *
+ * @param lastPage in ApiPostResponse
+ * @returns returns next page if any
+ */
+export const getNextParams = (lastPage: ApiPostResponse) => {
+  if (
+    lastPage.nextPage &&
+    lastPage.nextPage * (PAGE_SIZE + 1) < lastPage.totalPosts
+  ) {
+    return lastPage.nextPage
+  }
+  return undefined
 }

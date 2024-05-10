@@ -2,37 +2,12 @@ import React from 'react'
 import Posts from '../posts/Posts'
 import usePostStore from '@/store/posts'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { getEverythingGuardianPosts } from '@/api/guardian/guardian'
-import { getEveryNewsApiPosts } from '@/api/news-api/newsApi'
-import { getEverythingNewyorkTimesPosts } from '@/api/newyork-times/newyork'
-import { PAGE_SIZE } from '@/utils/constants'
+import { getInitialPageParams, getNextParams, getPostsData } from '@/utils'
 
 const PostsWrapper = () => {
   const searchQuery = usePostStore((state) => state.searchQuery)
   const appliedPostFilters = usePostStore((state) => state.appliedPostFilters)
   const setPosts = usePostStore((state) => state.setPosts)
-
-  // deciding which API to use based on different conditions
-  const queryFunction = ({ pageParam }: { pageParam: number }) => {
-    if (appliedPostFilters) {
-      return getEveryNewsApiPosts({
-        pageParam,
-      })
-    }
-    if (searchQuery) {
-      return getEverythingGuardianPosts({
-        pageParam,
-        searchQuery,
-      })
-    } else {
-      return getEverythingNewyorkTimesPosts({
-        pageParam,
-      })
-    }
-  }
-
-  // initial page number based on the API
-  const initialPageParam = appliedPostFilters || searchQuery ? 1 : 0
 
   // Api call here
   const {
@@ -46,20 +21,10 @@ const PostsWrapper = () => {
   } = useInfiniteQuery({
     queryKey: ['posts', searchQuery, appliedPostFilters],
     //@ts-ignore -> known type issue in react query v5
-    queryFn: queryFunction,
-    initialPageParam: initialPageParam,
-    getNextPageParam: (lastPage) => {
-      if (
-        lastPage.nextPage &&
-        lastPage.nextPage * (PAGE_SIZE + 1) < lastPage.totalPosts
-      ) {
-        return lastPage.nextPage
-      }
-      return undefined
-    },
+    queryFn: ({ pageParam }) => getPostsData(pageParam),
+    initialPageParam: getInitialPageParams(),
+    getNextPageParam: (lastPage) => getNextParams(lastPage),
   })
-
-  console.log(hasNextPage)
 
   // setting posts  to global state
   React.useEffect(() => {
