@@ -5,18 +5,20 @@ Discover news from diverse sources and categories effortlessly. Search for artic
 > [!IMPORTANT]
 > Don't forget to read about the important section below.
 
-[Get Apis](#get-the-apis) <br>
+## Get Started
+
+[Get the APIs](#get-the-apis) <br>
 [Project Setup](#project-setup)<br>
 [Important](#important)<br>
 [Tech Stack](#tech-stack)<br>
 [Diagrams For Better Understand](#diagrams-for-better-understanding)
 [Some Improvement](#improvement-pointers)
 
-## Get The APis
+## Get The APIs
 
-1. [News Api](https://newsapi.org/)
-2. [Guardian Api](https://open-platform.theguardian.com/access/)
-3. [Newyork Times APi](https://developer.nytimes.com/docs/articlesearch-product/1/overview)
+1. [News API](https://newsapi.org/)
+2. [Guardian API](https://open-platform.theguardian.com/access/)
+3. [Newyork Times API](https://developer.nytimes.com/docs/articlesearch-product/1/overview)
 
 ## Project Setup
 
@@ -53,13 +55,13 @@ VITE_NEWYORK_TIMES_API_KEY=YOUR_API_KEY_HERE
 
 ## Important
 
-#### Assignment Api resources
+#### Assignment API resources
 
 In the course of the challenge, I found that out of the provided resources, only three were viable for use. The resources included NewsAPI and NewsAPI.org, which were essentially the same, and Newscred, which had been rebranded as Optimizely. Unfortunately, Optimizely did not offer free APIs, and I didn't find a usable API for BBC content. Consequently, I proceeded with the three available resources: NewsAPI, The Guardian, and The New York Times.
 
 This limited selection posed its own set of challenges. However, I viewed this as an opportunity to address real-world scenarios where not all resources are readily accessible or fully compatible with the desired functionalities. In navigating these constraints, I aimed to demonstrate adaptability and problem-solving skills, essential qualities in the field. Therefore, despite the restricted options, I proceeded with the available APIs, acknowledging that such challenges are commonplace and necessitate resourcefulness to overcome.
 
-#### Api Usage
+#### API Usage
 
 Given the absence of specific instructions regarding API usage, I focused primarily on NewsAPI, leveraging its diverse sources and categories to build most of the functionality. The remaining APIs were also used but it was mostly for completing the challenge, allowing for a comprehensive approach to the project.
 
