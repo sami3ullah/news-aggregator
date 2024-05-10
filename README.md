@@ -1,5 +1,7 @@
 # Welcome to News Aggregator
 
+Discover news from diverse sources and categories effortlessly. Search for articles on various topics and stay informed about global events in a snap. Welcome aboard the journey of informed discovery!
+
 > [!IMPORTANT]
 > Don't forget to read about the important section below.
 
