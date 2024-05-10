@@ -89,7 +89,6 @@ const getErrorResponse = (error: AxiosError) => {
     case 404:
       return "The resource you're looking for is not found"
     case 426:
-      console.log(error.response)
       return `Oh no (>_<). ${errorData?.message}`
     case 429:
       return 'Too many requests. slow down :('
@@ -148,7 +147,6 @@ export const makeNewsApiFilters = () => {
     preferencePostAuthors,
     preferencePostCategories
   )
-  console.log(query)
   let date = dateFilter(filterPostDate)
   let sources = getSources(filterPostSource, preferencePostSources)
 

@@ -6,24 +6,30 @@ type Props = {
   errorMessage: string
   retryFn: any
   fullHeight?: boolean
+  buttonName?: string
 }
 
-const ErrorScreen = ({ errorMessage, retryFn, fullHeight = false }: Props) => {
+const ErrorScreen = ({
+  errorMessage,
+  retryFn,
+  fullHeight = false,
+  buttonName = 'Try Again',
+}: Props) => {
   const [loading, setLoading] = React.useState(false)
 
   const onClickHandler = async () => {
     setLoading(true)
     try {
-      await retryFn() // Wait for the retry function to complete
+      await retryFn()
     } catch (error) {
       console.error('Error during retry operation', error)
     }
-    setLoading(false) // Set loading to false after retryFn completes
+    setLoading(false)
   }
 
   return (
     <div
-      className={`flex flex-col gap-4 items-center justify-center ${fullHeight ? 'min-h-screen' : ''}`}
+      className={`flex flex-col gap-4 items-center justify-center w-full ${fullHeight ? 'min-h-screen' : ''}`}
     >
       <h3 className="text-2xl w-full md:w-[80%] lg:w-[50%] text-center">
         {errorMessage}
@@ -31,7 +37,7 @@ const ErrorScreen = ({ errorMessage, retryFn, fullHeight = false }: Props) => {
       <Button onClick={onClickHandler}>
         <div className="flex gap-2">
           {!!loading && <LoaderCircle className="animate-spin" />}
-          Try Again
+          {buttonName}
         </div>
       </Button>
     </div>

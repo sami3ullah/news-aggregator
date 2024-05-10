@@ -10,7 +10,6 @@ import { PAGE_SIZE } from '@/utils/constants'
 const PostsWrapper = () => {
   const searchQuery = usePostStore((state) => state.searchQuery)
   const appliedPostFilters = usePostStore((state) => state.appliedPostFilters)
-  console.log(appliedPostFilters)
   const setPosts = usePostStore((state) => state.setPosts)
 
   // deciding which API to use based on different conditions
@@ -28,7 +27,6 @@ const PostsWrapper = () => {
     } else {
       return getEverythingNewyorkTimesPosts({
         pageParam,
-        searchQuery,
       })
     }
   }

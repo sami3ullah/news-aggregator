@@ -84,4 +84,5 @@ Overall,
 
 # Improvements
 
-1. Integrate a sleep mechanism to handle rate-limiting errors.  
+1. Integrate a sleep mechanism to handle rate-limiting errors.
+2. Write more unit tests + integration and end to end tests.  

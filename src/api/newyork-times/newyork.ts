@@ -7,13 +7,10 @@ const newsApiAuthToken = import.meta.env.VITE_NEWYORK_TIMES_API_KEY || ''
 
 export const getEverythingNewyorkTimesPosts = async ({
   pageParam = 0,
-  searchQuery = '',
 }): Promise<ApiPostResponse> => {
-  const queryString = searchQuery ? 'q=' + searchQuery : ''
-
   try {
     const response: AxiosResponse = await axios.get(
-      `${NEWYORK_TIMES_ENDPOINT}?${queryString}&api-key=${newsApiAuthToken}&page=${pageParam}`
+      `${NEWYORK_TIMES_ENDPOINT}?api-key=${newsApiAuthToken}&page=${pageParam}`
     )
 
     const data: NewyorkTimesResponse = response.data
